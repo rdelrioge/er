@@ -1,17 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import "./index.scss"
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// Firebase
+// import firebase from "firebase/app";
+// import fbconfig from "./fbconfig";
+// import "firebase/auth";
+// import "firebase/firestore";
+
+// Main React Class Components
+// import App from "./App";
+import NoSigned from "./unauthenticated/NoSigned";
+
+// export const fb = firebase.initializeApp(fbconfig);
+// export const db = fb.firestore();
+
+// fb.auth().onAuthStateChanged(user => {
+//   if (user) {
+// ReactDOM.render(
+// <React.StrictMode>
+//     <App />
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
+// serviceWorker.unregister();
+//   } else{
+    ReactDOM.render(
+      <React.StrictMode>
+          <NoSigned />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+      serviceWorker.unregister();
+  // }
