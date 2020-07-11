@@ -1,13 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-function App() {
+// Import Material theme provider
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
+// Import Components
+import Store from "./Store";
+import Layout from "./components/Layout/Layout.jsx";
+import variables from "./index.scss";
+
+const App = () => {
   return (
-    <div className="App">
-      <h3>App</h3>
-    </div>
+    <Store>
+      <MuiThemeProvider theme={theme}>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Switch>
+            <Route component={Layout} />
+          </Switch>
+        </BrowserRouter>
+      </MuiThemeProvider>
+    </Store>
   );
-}
+};
+
+// Theme config
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: variables.primary, contrastText: "#ffffff" },
+    secondary: { main: variables.secondary },
+  },
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 export default App;
