@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-// import firebase from "firebase/app";
+import firebase from "firebase/app";
 import { Link } from "react-router-dom";
 
 import { UserContext } from "../../../Store";
@@ -11,7 +11,7 @@ const Navbar = (props) => {
   const [user] = useContext(UserContext);
 
   const logout = () => {
-    // firebase.auth().signOut();
+    firebase.auth().signOut();
     console.log("logout");
   };
 

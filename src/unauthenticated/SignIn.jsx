@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import firebase from "firebase/app";
+
 import { Card, TextField, Button, CardHeader } from "@material-ui/core";
 
 function SignIn() {
@@ -9,7 +11,15 @@ function SignIn() {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    console.log("Signin");
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        setAuthError(null);
+      })
+      .catch((err) => {
+        setAuthError(err.message);
+      });
   };
 
   return (

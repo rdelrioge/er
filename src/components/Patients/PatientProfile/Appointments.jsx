@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// import { db } from "../../../index";
+import { db } from "../../../index";
 import moment from "moment";
 
 import SwipeableViews from "react-swipeable-views";
@@ -66,13 +66,13 @@ function Consultation(props) {
       setDisabledFlag(false);
     } else {
       setDisabledFlag(true);
-      //   db.collection("events")
-      //     .doc(cita.uid)
-      //     .update({
-      //       ...cita,
-      //       edited: new Date(),
-      //       editedBy: props.user
-      //     });
+      db.collection("events")
+        .doc(cita.uid)
+        .update({
+          ...cita,
+          edited: new Date(),
+          editedBy: props.user,
+        });
     }
   };
 

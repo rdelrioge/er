@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-// import firebase from "firebase/app";
+import firebase from "firebase/app";
 
 import "./Sidebar.scss";
 import variables from "../../../index.scss";
 
 const Sidebar = () => {
   const logout = () => {
-    // firebase.auth().signOut();
+    firebase.auth().signOut();
     console.log("logout");
   };
 

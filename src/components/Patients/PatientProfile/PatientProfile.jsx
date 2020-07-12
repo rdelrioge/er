@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 import "./PatientProfile.scss";
 
-// import { db } from "../../../index";
+import { db } from "../../../index";
 import { UserContext } from "../../../Store";
 
 import PersonalData from "./PersonalData";
@@ -14,36 +14,36 @@ import Paper from "@material-ui/core/Paper";
 function PatientProfile(props) {
   const patientID = props.match.params.uid;
   const [user] = useContext(UserContext);
-  //   const patRef = db.collection("patients").doc(patientID);
+  const patRef = db.collection("patients").doc(patientID);
   const [patient, setPatient] = useState(null);
   const [appointments, setAppointments] = useState([]);
 
   // READ FOR PATIENT DATA AND UPDATE COMPONENT
-  //   useEffect(() => {
-  //     let unsubscribe = db
-  //       .collection("patients")
-  //       .doc(patientID)
-  //       .onSnapshot(snap => {
-  //         let pat = snap.data();
-  //         setPatient(pat);
-  //       });
-  //     return unsubscribe;
-  //   }, []);
+  useEffect(() => {
+    let unsubscribe = db
+      .collection("patients")
+      .doc(patientID)
+      .onSnapshot((snap) => {
+        let pat = snap.data();
+        setPatient(pat);
+      });
+    return unsubscribe;
+  }, []);
 
   // READ PATIENT APPOINTMENTS
-  //   useEffect(() => {
-  //     let unsubscribe = db
-  //       .collection("events")
-  //       .where("patientid", "==", patientID)
-  //       .onSnapshot(snap => {
-  //         let citas = [];
-  //         snap.forEach(app => {
-  //           citas.push({ ...app.data(), uid: app.id });
-  //         });
-  //         setAppointments(citas);
-  //       });
-  //     return unsubscribe;
-  //   }, []);
+  useEffect(() => {
+    let unsubscribe = db
+      .collection("events")
+      .where("patientid", "==", patientID)
+      .onSnapshot((snap) => {
+        let citas = [];
+        snap.forEach((app) => {
+          citas.push({ ...app.data(), uid: app.id });
+        });
+        setAppointments(citas);
+      });
+    return unsubscribe;
+  }, []);
 
   let gridAreasClass = ["superior", "gridAreas"];
   if (appointments.length > 0) {

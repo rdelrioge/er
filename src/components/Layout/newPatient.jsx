@@ -12,7 +12,7 @@ import {
 
 import Draggable from "react-draggable";
 
-// import { db } from "../../index";
+import { db } from "../../index";
 
 const NewPatient = (props) => {
   const [user] = useContext(UserContext);
@@ -23,10 +23,10 @@ const NewPatient = (props) => {
   const handleSubmit = (ev) => {
     let created = new Date();
     ev.preventDefault();
-    // db.collection("patients")
-    //   .add({ name, regid, tel, created: created.getTime(), owner: user })
-    //   .then((docRef) => console.log("Doc written with ID: ", docRef.id))
-    //   .catch((err) => console.log("Error addign doc: ", err));
+    db.collection("patients")
+      .add({ name, regid, tel, created: created.getTime(), owner: user })
+      .then((docRef) => console.log("Doc written with ID: ", docRef.id))
+      .catch((err) => console.log("Error addign doc: ", err));
     props.onClose();
   };
 

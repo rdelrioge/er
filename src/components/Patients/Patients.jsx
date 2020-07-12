@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 
 import "./Patients.scss";
 import { PatientsContext, UserContext } from "../../Store";
-// import { db } from "../../index";
+import { db } from "../../index";
 
 const Pacientes = () => {
   const [results, setResults] = useState([]);
@@ -37,22 +37,22 @@ const Pacientes = () => {
     return filtrado;
   };
 
-  // useEffect(() => {
-  //   let unsubcribe = db
-  //     .collection("patients")
-  //     .where("owner", "==", user)
-  //     .orderBy("created", "desc")
-  //     .limit(5)
-  //     .onSnapshot((pats) => {
-  //       let recentPatients = [];
-  //       pats.forEach((patient) => {
-  //         let pat = { ...patient.data(), uid: patient.id };
-  //         recentPatients.push(pat);
-  //       });
-  //       setRecents(recentPatients);
-  //     });
-  //   return unsubcribe;
-  // }, []);
+  useEffect(() => {
+    let unsubcribe = db
+      .collection("patients")
+      .where("owner", "==", user)
+      .orderBy("created", "desc")
+      .limit(5)
+      .onSnapshot((pats) => {
+        let recentPatients = [];
+        pats.forEach((patient) => {
+          let pat = { ...patient.data(), uid: patient.id };
+          recentPatients.push(pat);
+        });
+        setRecents(recentPatients);
+      });
+    return unsubcribe;
+  }, []);
 
   return (
     <div className="pacientes">

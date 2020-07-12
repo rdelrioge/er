@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// import { db } from "../../index";
+import { db } from "../../index";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -19,24 +19,24 @@ const Calendario = () => {
   const [actualEvent, setActualEvent] = useState(null);
 
   // READ FOR EVENTS IN DB
-  //   useEffect(() => {
-  //     db.collection("events").onSnapshot((data) => {
-  //       if (!data.empty) {
-  //         let myEvents = [];
-  //         data.forEach((ev) => {
-  //           // Convert FB time to Calendar Time
-  //           let calStart = new Date(ev.data().start.toMillis());
-  //           let calEnd = new Date(ev.data().end.toMillis());
-  //           let evn = { ...ev.data(), start: calStart, end: calEnd, uid: ev.id };
-  //           myEvents.push(evn);
-  //         });
-  //         setEvents(myEvents);
-  //       } else {
-  //         console.log("there are no events");
-  //         setEvents([]);
-  //       }
-  //     });
-  //   }, []);
+  useEffect(() => {
+    db.collection("events").onSnapshot((data) => {
+      if (!data.empty) {
+        let myEvents = [];
+        data.forEach((ev) => {
+          // Convert FB time to Calendar Time
+          let calStart = new Date(ev.data().start.toMillis());
+          let calEnd = new Date(ev.data().end.toMillis());
+          let evn = { ...ev.data(), start: calStart, end: calEnd, uid: ev.id };
+          myEvents.push(evn);
+        });
+        setEvents(myEvents);
+      } else {
+        console.log("there are no events");
+        setEvents([]);
+      }
+    });
+  }, []);
 
   const openCreateModal = (ev) => {
     setActualEvent({ start: ev.start, end: ev.end, title: "" });
@@ -51,9 +51,9 @@ const Calendario = () => {
         end: event.end,
         patientid: event.patient.uid,
       };
-      //   db.collection("events")
-      //     .add(newEvent)
-      //     .catch((err) => console.log("Error addign event: ", err));
+      db.collection("events")
+        .add(newEvent)
+        .catch((err) => console.log("Error addign event: ", err));
     }
   };
 
@@ -79,17 +79,17 @@ const Calendario = () => {
 
   const editEvent = ({ event, start, end }) => {
     let newEvent = { ...event, start, end };
-    // db.collection("events")
-    //   .doc(event.uid)
-    //   .update(newEvent)
-    //   .catch((err) => console.error("Error updating event: ", err));
+    db.collection("events")
+      .doc(event.uid)
+      .update(newEvent)
+      .catch((err) => console.error("Error updating event: ", err));
   };
 
   const deleteEvent = (event) => {
-    // db.collection("events")
-    //   .doc(event.uid)
-    //   .delete()
-    //   .catch((err) => console.error("Error removing event: ", err));
+    db.collection("events")
+      .doc(event.uid)
+      .delete()
+      .catch((err) => console.error("Error removing event: ", err));
   };
 
   return (
