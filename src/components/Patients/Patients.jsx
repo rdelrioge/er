@@ -2,25 +2,20 @@ import React, { useState, useContext, useEffect } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 
 import "./Patients.scss";
-import NewPatient from "./newPatient";
 import { PatientsContext, UserContext } from "../../Store";
 // import { db } from "../../index";
 
 const Pacientes = () => {
-  const [newPatientModal, setNewPatientModal] = useState(false);
   const [results, setResults] = useState([]);
   const [recents, setRecents] = useState([]);
   const [patients] = useContext(PatientsContext);
   const [user] = useContext(UserContext);
 
-  const closeModal = () => {
-    setNewPatientModal(false);
-  };
+  const closeModal = () => {};
 
   const filterPatients = (val) => {
     val = val.trim().toLowerCase();
@@ -74,14 +69,6 @@ const Pacientes = () => {
           onChange={(e) => filterPatients(e.target.value)}
         />
         <span className="spacer" />
-        <Button
-          className="newPatientBtn"
-          variant="contained"
-          color="primary"
-          onClick={() => setNewPatientModal(true)}
-        >
-          New patient
-        </Button>
       </Paper>
       <Paper className="paperPatientsList">
         <ul>
@@ -129,8 +116,6 @@ const Pacientes = () => {
           )}
         </ul>
       </Paper>
-
-      <NewPatient open={newPatientModal} onClose={() => closeModal()} />
     </div>
   );
 };

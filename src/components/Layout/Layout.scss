@@ -18,3 +18,37 @@
 .mainOpen {
   margin-left: 240px;
 }
+.newPatientBtn {
+  position: fixed !important;
+  right: 25px;
+  bottom: 25px;
+  // height: '50px';
+  // width: '50px';
+}
+.newPatientModal {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 10px 30px 30px 30px;
+  border-radius: 10px;
+  width: 40%;
+  .header {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    button {
+      margin: auto;
+    }
+  }
+  .pickers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align-last: center;
+    margin: 1em 0;
+    justify-items: center;
+    .timepicker {
+      width: 8em;
+    }
+    span {
+      color: gray;
+    }
+  }
+}

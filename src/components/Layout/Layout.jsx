@@ -3,11 +3,16 @@ import React, { useState } from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 import LayoutRouter from "./LayoutRouter";
+import NewPatient from "./newPatient";
+
+import Fab from "@material-ui/core/Fab";
+
 /* Styles */
 import "./Layout.scss";
 
 function Layout() {
   const [sidebarPos, setSidebarPos] = useState(1);
+  const [newPatientModal, setNewPatientModal] = useState(false);
 
   const handleSidebar = () => {
     if (sidebarPos < 2) {
@@ -37,6 +42,17 @@ function Layout() {
       <div className={mainClass.join(" ")}>
         <LayoutRouter />
       </div>
+      <Fab
+        className="newPatientBtn"
+        color="primary"
+        onClick={() => setNewPatientModal(true)}
+      >
+        <i className="material-icons">add</i>
+      </Fab>
+      <NewPatient
+        open={newPatientModal}
+        onClose={() => setNewPatientModal(false)}
+      />
     </div>
   );
 }
