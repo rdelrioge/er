@@ -1,162 +1,166 @@
 import React, { useState, useEffect } from "react";
 
 // Material
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import {
+  TextField,
+  InputLabel,
+  OutlinedInput,
+  MenuItem,
+  FormControl,
+  Select,
+  InputAdornment,
+  DialogTitle,
+  DialogContent,
+  Button,
+  DialogActions,
+  Modal,
+} from "@material-ui/core";
+
+import Draggable from "react-draggable";
 
 function ClinicalHistory(props) {
   const [patient, setPatient] = useState(props.patient);
-  const [disabledFlag, setDisabledFlag] = useState(true);
 
   useEffect(() => {
     setPatient(props.patient);
   }, [props]);
 
   const handlePersonalData = () => {
-    if (disabledFlag) {
-      setDisabledFlag(false);
-    } else {
-      setDisabledFlag(true);
-      props.patRef.update({
-        ...patient,
-        edited: new Date(),
-        editedBy: props.user,
-      });
-    }
+    props.patRef.update({
+      ...patient,
+      edited: new Date(),
+      editedBy: props.user,
+    });
+    handleClose();
+  };
+
+  const handleClose = () => {
+    props.onClose();
   };
 
   return (
-    <>
-      <div className="sectionHeader">
-        <span>Clinical History</span>
-        <IconButton aria-label="Delete" onClick={handlePersonalData}>
-          {disabledFlag ? (
-            <i className="material-icons">edit</i>
-          ) : (
-            <i className="material-icons">save</i>
-          )}
-        </IconButton>
-      </div>
-      <form className="sectionContent">
-        <div className="content">
-          <div className="row0">
-            <TextField
-              label="Weight"
-              variant="outlined"
-              disabled={disabledFlag ? true : false}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">Kg</InputAdornment>
-                ),
-              }}
-              value={patient.weight ? patient.weight : ""}
-              onChange={(e) =>
-                setPatient({ ...patient, weight: e.target.value })
-              }
-            />
-            <TextField
-              label="Height"
-              variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">cms</InputAdornment>
-                ),
-              }}
-              disabled={disabledFlag ? true : false}
-              value={patient.height ? patient.height : ""}
-              onChange={(e) =>
-                setPatient({ ...patient, height: e.target.value })
-              }
-            />
-            <FormControl
-              variant="outlined"
-              disabled={disabledFlag ? true : false}
-            >
-              <InputLabel htmlFor="bloodGroup">Blood Group</InputLabel>
-              <Select
-                value={patient.bloodGroup ? patient.bloodGroup : ""}
-                onChange={(e) =>
-                  setPatient({ ...patient, bloodGroup: e.target.value })
-                }
-                input={
-                  <OutlinedInput
-                    labelWidth={80}
-                    name="bloodGroup"
-                    id="bloodGroup"
-                  />
-                }
+    <Modal
+      open={props.open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-name"
+    >
+      <Draggable handle=".header">
+        <div className="clinicalHistoryModal">
+          <div className="header">
+            <DialogTitle id="form-dialog-name">
+              Historia Clínica
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handlePersonalData}
               >
-                <MenuItem value="">
-                  <em>Unknown</em>
-                </MenuItem>
-                <MenuItem value="O-">O-</MenuItem>
-                <MenuItem value="O+">O+</MenuItem>
-                <MenuItem value="B-">B-</MenuItem>
-                <MenuItem value="B+">B+</MenuItem>
-                <MenuItem value="A-">A-</MenuItem>
-                <MenuItem value="A+">B+</MenuItem>
-                <MenuItem value="AB-">AB-</MenuItem>
-                <MenuItem value="AB+">AB+</MenuItem>
-              </Select>
-            </FormControl>
+                Guardar
+              </Button>
+            </DialogTitle>
           </div>
-          <div className="row1">
+          <DialogContent className="sectionContent">
+            <div className="row0">
+              <TextField
+                label="Peso"
+                variant="outlined"
+                autoFocus
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">Kg</InputAdornment>
+                  ),
+                }}
+                value={patient.weight ? patient.weight : ""}
+                onChange={(e) =>
+                  setPatient({ ...patient, weight: e.target.value })
+                }
+              />
+              <TextField
+                label="Estatura"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">cms</InputAdornment>
+                  ),
+                }}
+                value={patient.height ? patient.height : ""}
+                onChange={(e) =>
+                  setPatient({ ...patient, height: e.target.value })
+                }
+              />
+              <FormControl variant="outlined">
+                <InputLabel htmlFor="bloodGroup">Tipo de sangre</InputLabel>
+                <Select
+                  value={patient.bloodGroup ? patient.bloodGroup : ""}
+                  onChange={(e) =>
+                    setPatient({ ...patient, bloodGroup: e.target.value })
+                  }
+                  input={
+                    <OutlinedInput
+                      labelWidth={80}
+                      name="bloodGroup"
+                      id="bloodGroup"
+                    />
+                  }
+                >
+                  <MenuItem value="">
+                    <em>Unknown</em>
+                  </MenuItem>
+                  <MenuItem value="O-">O-</MenuItem>
+                  <MenuItem value="O+">O+</MenuItem>
+                  <MenuItem value="B-">B-</MenuItem>
+                  <MenuItem value="B+">B+</MenuItem>
+                  <MenuItem value="A-">A-</MenuItem>
+                  <MenuItem value="A+">B+</MenuItem>
+                  <MenuItem value="AB-">AB-</MenuItem>
+                  <MenuItem value="AB+">AB+</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
             <TextField
-              label="Allergies"
+              label="Alergias"
               variant="outlined"
               multiline
               rows="4"
-              disabled={disabledFlag ? true : false}
               value={patient.allergies ? patient.allergies : ""}
               onChange={(e) =>
                 setPatient({ ...patient, allergies: e.target.value })
               }
             />
             <TextField
-              label="Medications"
+              label="Medicamentos"
               variant="outlined"
               multiline
               rows="4"
-              disabled={disabledFlag ? true : false}
               value={patient.medications ? patient.medications : ""}
               onChange={(e) =>
                 setPatient({ ...patient, medications: e.target.value })
               }
             />
-          </div>
-          <div className="row2">
+
             <TextField
-              label="Congenital disorders"
+              label="Enfermedades congénitas"
               variant="outlined"
               multiline
               rows="4"
-              disabled={disabledFlag ? true : false}
               value={patient.disorders ? patient.disorders : ""}
               onChange={(e) =>
                 setPatient({ ...patient, disorders: e.target.value })
               }
             />
             <TextField
-              label="Notes"
+              label="Notas"
               variant="outlined"
               multiline
               rows="4"
-              disabled={disabledFlag ? true : false}
               value={patient.notes ? patient.notes : ""}
               onChange={(e) =>
                 setPatient({ ...patient, notes: e.target.value })
               }
             />
-          </div>
+          </DialogContent>
         </div>
-      </form>
-    </>
+      </Draggable>
+    </Modal>
   );
 }
 

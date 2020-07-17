@@ -1,53 +1,60 @@
 import React, { useState, useEffect } from "react";
 
 // Material
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import {
+  TextField,
+  InputLabel,
+  OutlinedInput,
+  MenuItem,
+  FormControl,
+  Select,
+  DialogTitle,
+  DialogContent,
+  Button,
+  DialogActions,
+  Modal,
+} from "@material-ui/core";
+
+import Draggable from "react-draggable";
 
 function PersonalData(props) {
   const [patient, setPatient] = useState(props.patient);
   const [mydate, setMyDate] = useState(null);
-  const [disabledFlag, setDisabledFlag] = useState(true);
 
   useEffect(() => {
     setPatient(props.patient);
+    console.log(props.patient);
   }, [props]);
 
   const handlePersonalData = () => {
-    if (disabledFlag) {
-      setDisabledFlag(false);
-    } else {
-      setDisabledFlag(true);
-      if (mydate) {
-        calculateAge(mydate);
+    if (mydate) {
+      let dob = new Date(mydate);
+      let today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      if (
+        today.getMonth() < dob.getMonth() ||
+        (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())
+      ) {
+        age--;
       }
+      let offset = dob.getTimezoneOffset();
+      let dobFl = dob.getTime() + offset * 60 * 1000;
+      let correct = new Date(dobFl);
+      props.patRef.update({
+        ...patient,
+        dob: correct,
+        age,
+        edited: new Date(),
+        editedBy: props.user,
+      });
+    } else {
       props.patRef.update({
         ...patient,
         edited: new Date(),
         editedBy: props.user,
       });
     }
-  };
-
-  const calculateAge = (birthday) => {
-    let dob = new Date(birthday);
-    let today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
-    if (
-      today.getMonth() < dob.getMonth() ||
-      (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())
-    ) {
-      age--;
-    }
-    let offset = dob.getTimezoneOffset();
-    let dobFl = dob.getTime() + offset * 60 * 1000;
-    let correct = new Date(dobFl);
-    props.patRef.update({ ...patient, dob: correct, age });
+    handleClose();
   };
 
   const renderDate = () => {
@@ -57,57 +64,67 @@ function PersonalData(props) {
     return fbdate.getFullYear() + "-" + month + "-" + day;
   };
 
+  const handleClose = () => {
+    props.onClose();
+  };
+
   return (
-    <>
-      <div className="sectionHeader">
-        <span>Personal Data</span>
-        <IconButton aria-label="Delete" onClick={handlePersonalData}>
-          {disabledFlag ? (
-            <i className="material-icons">edit</i>
-          ) : (
-            <i className="material-icons">save</i>
-          )}
-        </IconButton>
-      </div>
-      <form className="sectionContent">
-        <div className="content">
-          <div className="telyemail">
+    <Modal
+      open={props.open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-name"
+      // onRendered={resetProps}
+    >
+      <Draggable handle=".header">
+        <div className="personalDataModal">
+          <div className="header">
+            <DialogTitle id="form-dialog-name">
+              {" "}
+              Patient Data{" "}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handlePersonalData}
+              >
+                Guardar
+              </Button>
+            </DialogTitle>
+          </div>
+          <DialogContent className="sectionContent">
             <TextField
-              label="Telephone"
+              label="Nombre"
               variant="outlined"
-              disabled={disabledFlag ? true : false}
+              autoFocus
+              value={patient.name ? patient.name : ""}
+              onChange={(e) => setPatient({ ...patient, name: e.target.value })}
+            />
+            <TextField
+              label="Teléfono"
+              variant="outlined"
               value={patient.tel ? patient.tel : ""}
               onChange={(e) => setPatient({ ...patient, tel: e.target.value })}
             />
             <TextField
-              label="Email"
+              label="e-mail"
               variant="outlined"
-              disabled={disabledFlag ? true : false}
               value={patient.email ? patient.email : ""}
               onChange={(e) =>
                 setPatient({ ...patient, email: e.target.value })
               }
             />
-          </div>
-          <TextField
-            className="address"
-            label="Address"
-            variant="outlined"
-            multiline
-            rows="3"
-            disabled={disabledFlag ? true : false}
-            value={patient.address ? patient.address : ""}
-            onChange={(e) =>
-              setPatient({ ...patient, address: e.target.value })
-            }
-          />
-          <div className="genydob">
-            <FormControl
-              className="selectGender"
+            <TextField
+              className="address"
+              label="Dirección"
               variant="outlined"
-              disabled={disabledFlag ? true : false}
-            >
-              <InputLabel htmlFor="gender">Gender</InputLabel>
+              multiline
+              rows="3"
+              value={patient.address ? patient.address : ""}
+              onChange={(e) =>
+                setPatient({ ...patient, address: e.target.value })
+              }
+            />
+            <FormControl className="selectGender" variant="outlined">
+              <InputLabel htmlFor="gender">Género</InputLabel>
               <Select
                 value={patient.gender ? patient.gender : ""}
                 onChange={(e) =>
@@ -120,16 +137,15 @@ function PersonalData(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-                <MenuItem value="Other">Other</MenuItem>
+                <MenuItem value="M">Masculino</MenuItem>
+                <MenuItem value="F">Femenino</MenuItem>
+                {/* <MenuItem value="Otro">Other</MenuItem> */}
               </Select>
             </FormControl>
             <TextField
               className="dob"
-              label="Birthday"
+              label="Fecha de nacimiento"
               variant="outlined"
-              disabled={disabledFlag ? true : false}
               type="date"
               defaultValue={patient.dob ? renderDate() : ""}
               InputLabelProps={{
@@ -139,10 +155,10 @@ function PersonalData(props) {
                 setMyDate(e.target.value);
               }}
             />
-          </div>
+          </DialogContent>
         </div>
-      </form>
-    </>
+      </Draggable>
+    </Modal>
   );
 }
 

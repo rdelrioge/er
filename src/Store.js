@@ -10,14 +10,17 @@ const Store = ({ children }) => {
 
   // READ FOR PATIENTS IN DB
   useEffect(() => {
-    db.collection("patients").onSnapshot((data) => {
-      let myPatients = [];
-      data.forEach((patient) => {
-        let pat = { ...patient.data(), uid: patient.id };
-        myPatients.push(pat);
+    db.collection("patients")
+      .get()
+      .then((data) => {
+        let myPatients = [];
+        data.forEach((patient) => {
+          let pat = { ...patient.data(), uid: patient.id };
+          myPatients.push(pat);
+        });
+        setPatients(myPatients);
+        console.log("Read patients from DB");
       });
-      setPatients(myPatients);
-    });
   }, []);
 
   return (
