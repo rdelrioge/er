@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import { db } from "../../index";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import * as dates from "react-big-calendar/lib/utils/dates";
 import Event from "./Event";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { EventsContext } from "../../Store";
 
 const localizer = momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(Calendar);

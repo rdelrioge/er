@@ -1,34 +1,128 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
+import {
+  TextField,
+  InputLabel,
+  OutlinedInput,
+  MenuItem,
+  FormControl,
+  Select,
+  Paper,
+} from "@material-ui/core";
 
 import "./Patients.scss";
-import { PatientsContext } from "../../Store";
+import { db } from "../..";
 
 const Pacientes = () => {
   const [results, setResults] = useState([]);
-  const [patients] = useContext(PatientsContext);
+  const [limite, setLimite] = useState(5);
+  const [filtroBuscar, setFiltroBuscar] = useState("name");
 
   const filterPatients = (val) => {
-    val = val.trim().toLowerCase();
     if (val === "") {
       setResults([]);
     } else {
-      setResults(filterAllProperties([...patients], val));
+      if (filtroBuscar === "regid" || filtroBuscar === "tel") {
+        // Si filtro es regid o tel, empieza a buscar cuando sean mas de 6 digitos
+        if (val.length === 6) {
+          let myPatients = [];
+          db.collection("patients")
+            .where(filtroBuscar, ">=", val)
+            .where(filtroBuscar, "<=", val + "\uf8ff")
+            .limit(limite)
+            .get()
+            .then((docs) => {
+              docs.forEach((patient) => {
+                let pat = { ...patient.data(), uid: patient.id };
+                myPatients.push(pat);
+              });
+              console.log(`From ${filtroBuscar} on FS:`);
+              console.log(myPatients);
+              setResults(myPatients);
+            });
+        }
+        if (val.length > 6 && results.length > 0) {
+          setResults(filterByProperty([...results], filtroBuscar, val));
+        }
+      } else {
+        // Si no es regid ni tel entonces busca a partir del 3 digito ingresado
+        if (val.length === 3) {
+          let myPatients = [];
+          // buscar pacientes por nombre
+          db.collection("patients")
+            .where(filtroBuscar, ">=", val)
+            .where(filtroBuscar, "<=", val + "\uf8ff")
+            .limit(limite)
+            .get()
+            .then((docs) => {
+              docs.forEach((patient) => {
+                let pat = { ...patient.data(), uid: patient.id };
+                myPatients.push(pat);
+              });
+              console.log(`From ${filtroBuscar} on FS:`);
+              console.log(myPatients);
+              setResults(myPatients);
+            });
+          db.collection("patients")
+            .where("secondname", ">=", val)
+            .where("secondname", "<=", val + "\uf8ff")
+            .limit(limite)
+            .get()
+            .then((docs) => {
+              docs.forEach((patient) => {
+                let pat = { ...patient.data(), uid: patient.id };
+                myPatients.push(pat);
+              });
+              console.log("From secondname on FS:");
+              console.log(myPatients);
+              setResults(myPatients);
+            });
+          db.collection("patients")
+            .where("lastname", ">=", val)
+            .where("lastname", "<=", val + "\uf8ff")
+            .limit(limite)
+            .get()
+            .then((docs) => {
+              docs.forEach((patient) => {
+                let pat = { ...patient.data(), uid: patient.id };
+                myPatients.push(pat);
+              });
+              console.log("From lastname on FS:");
+              console.log(myPatients);
+              setResults(myPatients);
+            });
+          db.collection("patients")
+            .where("seclastname", ">=", val)
+            .where("seclastname", "<=", val + "\uf8ff")
+            .limit(limite)
+            .get()
+            .then((docs) => {
+              docs.forEach((patient) => {
+                let pat = { ...patient.data(), uid: patient.id };
+                myPatients.push(pat);
+              });
+              console.log("From seclastname on FS:");
+              console.log(myPatients);
+              setResults(myPatients);
+            });
+        }
+        if (val.length > 3 && results.length > 0) {
+          setResults(filterByProperty([...results], "name", val));
+        }
+      }
     }
   };
 
-  const filterAllProperties = (array, value) => {
-    let filtrado = [];
-    for (let i = 0; i < array.length; i++) {
-      let obj = JSON.stringify(array[i]);
-      if (obj.toLowerCase().indexOf(value) >= 0) {
-        filtrado.push(JSON.parse(obj));
+  const filterByProperty = (array, prop, value) => {
+    var filtered = [];
+    for (var i = 0; i < array.length; i++) {
+      var obj = array[i];
+      if (obj[prop].indexOf(value) >= 0) {
+        filtered.push(obj);
       }
     }
-    return filtrado;
+    return filtered;
   };
 
   return (
@@ -45,7 +139,34 @@ const Pacientes = () => {
           autoFocus
           onChange={(e) => filterPatients(e.target.value)}
         />
+        {filtroBuscar === "name" ? (
+          <p>Ingresar mínimo 3 digitos del(os) nombre(s) o apellido(s)</p>
+        ) : null}
+        {filtroBuscar === "tel" ? (
+          <p>Ingresar mínimo 6 digitos del telefono</p>
+        ) : null}
+        {filtroBuscar === "regid" ? (
+          <p>Ingresar mínimo 6 digitos del ID</p>
+        ) : null}
         <span className="spacer" />
+        <FormControl className="filtroBuscar" variant="outlined">
+          <InputLabel htmlFor="filtroBuscar">Buscar por</InputLabel>
+          <Select
+            value={filtroBuscar}
+            onChange={(e) => setFiltroBuscar(e.target.value)}
+            input={
+              <OutlinedInput
+                labelWidth={80}
+                name="filtroBuscar"
+                id="filtroBuscar"
+              />
+            }
+          >
+            <MenuItem value="name">Nombre(s)</MenuItem>
+            <MenuItem value="regid">No de registro</MenuItem>
+            <MenuItem value="tel">Teléfono</MenuItem>
+          </Select>
+        </FormControl>
       </Paper>
       <Paper className="paperPatientsList">
         <ul>

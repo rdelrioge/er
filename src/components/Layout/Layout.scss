@@ -38,6 +38,12 @@
       margin: auto;
     }
   }
+  .contentNewPatientModal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1em;
+    row-gap: 1em;
+  }
   .pickers {
     display: grid;
     grid-template-columns: 1fr 1fr;

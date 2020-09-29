@@ -55,6 +55,7 @@ const Event = (props) => {
         let res = pat.uid.localeCompare(props.event.patientid);
         if (res === 0) {
           setPatient(pat);
+          console.log(pat);
         }
       });
     }
@@ -172,7 +173,7 @@ const Event = (props) => {
           <div className="case1">
             {delbtn ? (
               <Link to={{ pathname: `/patient/${patient.uid}` }}>
-                <h3>{patient.name}</h3>
+                <h3>{props.event.title}</h3>
               </Link>
             ) : (
               <h3>{patient.name}</h3>

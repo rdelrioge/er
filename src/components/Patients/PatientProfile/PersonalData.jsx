@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogContent,
   Button,
-  DialogActions,
   Modal,
 } from "@material-ui/core";
 
@@ -79,8 +78,7 @@ function PersonalData(props) {
         <div className="personalDataModal">
           <div className="header">
             <DialogTitle id="form-dialog-name">
-              {" "}
-              Patient Data{" "}
+              Patient Data
               <Button
                 variant="contained"
                 color="primary"

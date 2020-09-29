@@ -12,7 +12,6 @@ import {
   DialogTitle,
   DialogContent,
   Button,
-  DialogActions,
   Modal,
 } from "@material-ui/core";
 

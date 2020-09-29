@@ -9,7 +9,7 @@ import PersonalData from "./PersonalData";
 import ClinicalHistory from "./ClinicalHistory";
 import Appointments from "./Appointments";
 
-import { Paper, Button, IconButton } from "@material-ui/core";
+import { Paper, IconButton } from "@material-ui/core";
 
 function PatientProfile(props) {
   const patientID = props.match.params.uid;
