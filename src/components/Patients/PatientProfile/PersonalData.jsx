@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 
 // Material
 import {
@@ -13,6 +14,13 @@ import {
   Button,
   Modal,
 } from "@material-ui/core";
+
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+
+import MomentUtils from "@date-io/moment";
 
 import Draggable from "react-draggable";
 
@@ -36,12 +44,12 @@ function PersonalData(props) {
       ) {
         age--;
       }
-      let offset = dob.getTimezoneOffset();
-      let dobFl = dob.getTime() + offset * 60 * 1000;
-      let correct = new Date(dobFl);
+      // let offset = dob.getTimezoneOffset();
+      // let dobFl = dob.getTime() + offset * 60 * 1000;
+      // let correct = new Date(dobFl);
       props.patRef.update({
         ...patient,
-        dob: correct,
+        dob: moment(dob).format("DD-MMM-YYYY"),
         age,
         edited: new Date(),
         editedBy: props.user,
@@ -140,19 +148,18 @@ function PersonalData(props) {
                 {/* <MenuItem value="Otro">Other</MenuItem> */}
               </Select>
             </FormControl>
-            <TextField
-              className="dob"
-              label="Fecha de nacimiento"
-              variant="outlined"
-              type="date"
-              defaultValue={patient.dob ? renderDate() : ""}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(e) => {
-                setMyDate(e.target.value);
-              }}
-            />
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <KeyboardDatePicker
+                className="dob"
+                label="Fecha de nacimiento"
+                inputVariant="outlined"
+                format="DD/MM/YYYY"
+                helperText="dd/mm/yyyy"
+                size="small"
+                value={patient.dob ? patient.dob : null}
+                onChange={setMyDate}
+              />
+            </MuiPickersUtilsProvider>
           </DialogContent>
         </div>
       </Draggable>

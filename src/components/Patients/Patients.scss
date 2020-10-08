@@ -11,6 +11,7 @@
     display: flex;
     .searchInput {
       input {
+        text-transform: capitalize;
         width: 10em;
         transition: width 0.5s ease-in-out;
       }

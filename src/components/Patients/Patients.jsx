@@ -137,7 +137,12 @@ const Pacientes = () => {
           label="Search patient"
           variant="outlined"
           autoFocus
-          onChange={(e) => filterPatients(e.target.value)}
+          size="small"
+          onChange={(e) =>
+            filterPatients(
+              e.target.value.replace(/\b\w/g, (l) => l.toUpperCase())
+            )
+          }
         />
         {filtroBuscar === "name" ? (
           <p>Ingresar mínimo 3 digitos del(os) nombre(s) o apellido(s)</p>
@@ -149,7 +154,7 @@ const Pacientes = () => {
           <p>Ingresar mínimo 6 digitos del ID</p>
         ) : null}
         <span className="spacer" />
-        <FormControl className="filtroBuscar" variant="outlined">
+        <FormControl size="small" className="filtroBuscar" variant="outlined">
           <InputLabel htmlFor="filtroBuscar">Buscar por</InputLabel>
           <Select
             value={filtroBuscar}
@@ -157,6 +162,7 @@ const Pacientes = () => {
             input={
               <OutlinedInput
                 labelWidth={80}
+                size="small"
                 name="filtroBuscar"
                 id="filtroBuscar"
               />

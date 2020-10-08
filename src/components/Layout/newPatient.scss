@@ -1,0 +1,49 @@
+.newPatientModal {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 10px 30px 30px 30px;
+  border-radius: 10px;
+  width: 60%;
+  .contentNewPatientModal {
+    display: grid;
+    row-gap: 2em;
+    .superiorData {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      row-gap: 1em;
+      column-gap: 1em;
+      border-bottom: 1px solid lightgray;
+      padding-bottom: 1em;
+    }
+    .inferiorData {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 1em;
+      border-bottom: 1px solid lightgray;
+      padding-bottom: 2em;
+      .infDataRow1 {
+        display: grid;
+        grid-template-columns: 3fr 6fr 1.5fr 1.5fr;
+        column-gap: 1em;
+      }
+      .infDataRow2 {
+        display: grid;
+        grid-template-columns: 3fr 2.5fr 1.5fr 2.5fr 2.5fr;
+        column-gap: 1em;
+      }
+    }
+    .agendarPaciente {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 1em;
+      align-items: center;
+      p {
+        text-align: end;
+      }
+    }
+    .addBtn {
+      justify-self: center;
+      width: 20%;
+    }
+  }
+}

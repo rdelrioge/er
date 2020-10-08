@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
+
 import TimeInput from "material-ui-time-picker";
 
 import {
@@ -13,6 +15,10 @@ import {
   Step,
   StepLabel,
 } from "@material-ui/core";
+
+import { TimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import MomentUtils from "@date-io/moment";
 
 import Draggable from "react-draggable";
 import { PatientsContext } from "../../Store";
@@ -68,8 +74,8 @@ const Event = (props) => {
   };
 
   const handleTimeChange = (date, time) => {
-    let mins = date.getMinutes();
-    let hours = date.getHours();
+    let mins = moment(date).minutes();
+    let hours = moment(date).hours();
     if (time === "start") {
       let newDate = new Date(start);
       newDate.setHours(hours);
@@ -179,18 +185,26 @@ const Event = (props) => {
               <h3>{patient.name}</h3>
             )}
             <div className="pickers">
-              <span>Start</span>
-              <span>End</span>
-              <TimeInput
-                className="timepicker"
-                value={start}
-                onChange={(date) => handleTimeChange(date, "start")}
-              />
-              <TimeInput
-                className="timepicker"
-                value={end}
-                onChange={(date) => handleTimeChange(date, "end")}
-              />
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <TimePicker
+                  className="timepicker"
+                  inputVariant="outlined"
+                  size="small"
+                  label="Inicio"
+                  minutesStep="5"
+                  value={start}
+                  onChange={(date) => handleTimeChange(date, "start")}
+                />
+                <TimePicker
+                  className="timepicker"
+                  inputVariant="outlined"
+                  size="small"
+                  minutesStep="5"
+                  label="Fin"
+                  value={end}
+                  onChange={(date) => handleTimeChange(date, "end")}
+                />
+              </MuiPickersUtilsProvider>
             </div>
           </div>
         );
