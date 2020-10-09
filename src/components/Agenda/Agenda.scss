@@ -14,13 +14,18 @@
     }
     .rbc-event {
       background-color: #46d0f7;
-      border: 1px solid #46d0f7;
+      border: none;
       align-items: center;
       justify-content: center;
     }
     .rbc-event:hover {
       background-color: #40b7d8;
     }
+  }
+  .leyenda {
+    display: grid;
+    grid-auto-flow: column;
+    margin-top: 1em;
   }
 }
 

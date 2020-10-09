@@ -25,10 +25,17 @@ const Calendario = () => {
   }, [view]);
 
   const openCreateModal = (ev) => {
-    setActualEvent({ start: ev.start, end: ev.end, title: "" });
+    console.log(ev);
+    setActualEvent({
+      start: ev.start,
+      end: ev.end,
+      title: "",
+      resourceId: ev.resourceId,
+    });
     setOpenCreate(true);
   };
   const createEvent = (event) => {
+    console.log(event);
     setOpenCreate(false);
     if (event.ready) {
       let newEvent = {
@@ -38,6 +45,7 @@ const Calendario = () => {
         end: event.end,
         patientid: event.patient.uid,
         dia: moment(event.start).format("YYYY-MM-DD"),
+        resourceId: event.resourceId,
       };
       db.collection("events")
         .add(newEvent)
@@ -135,6 +143,14 @@ const Calendario = () => {
         });
       });
   };
+
+  const resourceMap = [
+    { resourceId: 1, sala: "Tomografia", abr: "TAC", color: "#00bcd4" },
+    { resourceId: 2, sala: "Rayos X", abr: "RX", color: "#f44336" },
+    { resourceId: 3, sala: "Ultrasonido", abr: "UL", color: "#4caf50" },
+    { resourceId: 4, sala: "Mastografia", abr: "XM", color: "#e91e63" },
+  ];
+
   return (
     <>
       <div>
@@ -142,24 +158,101 @@ const Calendario = () => {
           selectable
           localizer={localizer}
           events={events}
+          length={3}
           onEventDrop={editEvent}
           onSelectSlot={openCreateModal}
           onSelectEvent={openEditModal}
           onView={showView}
           onNavigate={getRangeOfTimeAndEvents}
           defaultView={view}
+          resources={view === "week" ? null : resourceMap}
+          resourceIdAccessor="resourceId"
+          resourceTitleAccessor="sala"
           step={30}
           messages={{
             previous: "<",
             next: ">",
             noEventsInRange:
-              "There are no patients scheduled for this time range",
+              "Sin pacientes agendados para este rango de fechas",
           }}
           timeslots={2}
           min={new Date("2019, 1, 1, 08:00")}
           max={new Date("2019, 1, 1, 20:00")}
           style={{ height: "72vh" }}
+          components={{
+            // event: (ev) => (
+            //   <span>
+            //     {/* <b>
+            //       {ev.event.resourceId
+            //         ? `${resourceMap[ev.event.resourceId - 1].abr}: `
+            //         : null}
+            //     </b> */}
+            //     {ev.title}
+            //   </span>
+            // ),
+            agenda: {
+              event: (ev) => (
+                <>
+                  {ev.event.resourceId ? (
+                    <span
+                      style={{
+                        color: resourceMap[ev.event.resourceId - 1].color,
+                        backgroundColor: "none",
+                      }}
+                    >
+                      {`${ev.title} - ${
+                        resourceMap[ev.event.resourceId - 1].sala
+                      }`}
+                    </span>
+                  ) : (
+                    <span>{ev.title}</span>
+                  )}
+                </>
+              ),
+            },
+          }}
+          eventPropGetter={(event) => {
+            if (event.resourceId === 1 && view !== "agenda") {
+              return {
+                style: {
+                  backgroundColor: resourceMap[event.resourceId - 1].color,
+                },
+              };
+            }
+            if (event.resourceId === 2 && view !== "agenda") {
+              return {
+                style: {
+                  backgroundColor: resourceMap[event.resourceId - 1].color,
+                },
+              };
+            }
+            if (event.resourceId === 3 && view !== "agenda") {
+              return {
+                style: {
+                  backgroundColor: resourceMap[event.resourceId - 1].color,
+                },
+              };
+            }
+            if (event.resourceId === 4 && view !== "agenda") {
+              return {
+                style: {
+                  backgroundColor: resourceMap[event.resourceId - 1].color,
+                },
+              };
+            }
+          }}
         />
+        {view !== "day" && view !== "agenda" ? (
+          <div className="leyenda">
+            {resourceMap.map((sala) => {
+              return (
+                <b key={sala.resourceId} style={{ color: sala.color }}>
+                  {sala.sala}
+                </b>
+              );
+            })}
+          </div>
+        ) : null}
         {openCreate ? (
           <div>
             <Event

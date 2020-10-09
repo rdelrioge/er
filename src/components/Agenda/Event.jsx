@@ -31,6 +31,7 @@ const Event = (props) => {
   const [remove, setRemove] = useState(props.remove);
   const [start, setStart] = useState(props.event.start);
   const [end, setEnd] = useState(props.event.end);
+  const [resourceId, setResourceId] = useState(props.event.resourceId);
   const [patients] = useContext(PatientsContext);
   const [results, setResults] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
@@ -39,19 +40,19 @@ const Event = (props) => {
 
   useEffect(() => {
     if (ready === true) {
-      props.onClose({ start, end, ready, remove, patient });
+      props.onClose({ start, end, ready, remove, patient, resourceId });
     }
   }, [ready]);
 
   useEffect(() => {
     if (remove === true) {
-      props.onClose({ start, end, ready, remove, patient });
+      props.onClose({ start, end, ready, remove, patient, resourceId });
     }
   }, [remove]);
 
   useEffect(() => {
     if (open === false) {
-      props.onClose({ start, end, ready, remove, patient });
+      props.onClose({ start, end, ready, remove, patient, resourceId });
     }
   }, [open]);
 
@@ -71,6 +72,7 @@ const Event = (props) => {
     setRemove(props.remove);
     setStart(props.event.start);
     setEnd(props.event.end);
+    setResourceId(props.event.resourceId);
   };
 
   const handleTimeChange = (date, time) => {
@@ -245,7 +247,6 @@ const Event = (props) => {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                fullWidth
               >
                 Edit
               </Button>
