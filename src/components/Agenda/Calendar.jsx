@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import { db } from "../../index";
 
@@ -17,7 +18,7 @@ const Calendario = () => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [actualEvent, setActualEvent] = useState(null);
-  const [view, setView] = useState("week");
+  const [view, setView] = useState("day");
   const [currentDate, setCurrentDate] = useState(moment());
 
   useEffect(() => {
@@ -68,16 +69,39 @@ const Calendario = () => {
           event: actualEvent,
           start: event.start,
           end: event.end,
+          resourceId: event.resourceId,
         });
       }
     }
   };
 
-  const editEvent = ({ event, start, end }) => {
-    let newEvent = { ...event, start, end };
+  const editEvent = ({ event, start, end, resourceId }) => {
+    let newEvent = null;
+    if (resourceId === null) {
+      newEvent = {
+        ...event,
+        start,
+        end,
+        dia: moment(start).format("YYYY-MM-DD"),
+        startTS: moment(start).local().valueOf(),
+      };
+    } else {
+      newEvent = {
+        ...event,
+        start,
+        end,
+        dia: moment(start).format("YYYY-MM-DD"),
+        startTS: moment(start).local().valueOf(),
+        resourceId,
+      };
+    }
+
     db.collection("events")
       .doc(event.uid)
       .update(newEvent)
+      .then(() => {
+        getRangeOfTimeAndEvents(currentDate);
+      })
       .catch((err) => console.error("Error updating event: ", err));
   };
 
@@ -106,14 +130,17 @@ const Calendario = () => {
       end = moment(date).endOf("month").add(6, "days");
     } else if (view === "agenda") {
       start = moment(date).startOf("day");
-      end = moment(date).endOf("day").add(1, "month");
+      end = moment(date).endOf("day").add(3, "days");
     }
     let inicio = moment(start).local().valueOf();
     let final = moment(end).local().valueOf();
+    console.log(inicio);
     db.collection("events")
       .where("startTS", ">=", inicio)
       .where("startTS", "<=", final)
-      .onSnapshot((data) => {
+      // .onSnapshot((data) => {
+      .get()
+      .then((data) => {
         let myEvents = [];
         let counter = 0;
         let datalength = data.size;
@@ -194,16 +221,18 @@ const Calendario = () => {
               event: (ev) => (
                 <>
                   {ev.event.resourceId ? (
-                    <span
+                    <Link
+                      to={{ pathname: `/patient/${ev.event.patientid}` }}
                       style={{
                         color: resourceMap[ev.event.resourceId - 1].color,
                         backgroundColor: "none",
+                        textDecoration: "none",
                       }}
                     >
                       {`${ev.title} - ${
                         resourceMap[ev.event.resourceId - 1].sala
                       }`}
-                    </span>
+                    </Link>
                   ) : (
                     <span>{ev.title}</span>
                   )}
@@ -256,7 +285,7 @@ const Calendario = () => {
         {openCreate ? (
           <div>
             <Event
-              title="New appointment"
+              title="Nueva cita"
               ready={false}
               remove={false}
               delbtn={false}
@@ -268,7 +297,7 @@ const Calendario = () => {
         ) : openEdit ? (
           <div>
             <Event
-              title="Edit appointment"
+              title="Editar cita"
               ready={false}
               remove={false}
               delbtn={true}

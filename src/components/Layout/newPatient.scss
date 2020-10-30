@@ -35,10 +35,11 @@
     .agendarPaciente {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      column-gap: 1em;
+      column-gap: 2em;
       align-items: center;
-      p {
+      h4 {
         text-align: end;
+        margin: 0 auto;
       }
     }
     .addBtn {

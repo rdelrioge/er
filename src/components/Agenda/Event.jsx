@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-import TimeInput from "material-ui-time-picker";
-
 import {
   Button,
   FormControl,
@@ -12,8 +10,11 @@ import {
   Modal,
   IconButton,
   Stepper,
+  Select,
   Step,
   StepLabel,
+  MenuItem,
+  OutlinedInput,
 } from "@material-ui/core";
 
 import { TimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -31,12 +32,12 @@ const Event = (props) => {
   const [remove, setRemove] = useState(props.remove);
   const [start, setStart] = useState(props.event.start);
   const [end, setEnd] = useState(props.event.end);
-  const [resourceId, setResourceId] = useState(props.event.resourceId);
+  const [resourceId, setResourceId] = useState(1);
   const [patients] = useContext(PatientsContext);
   const [results, setResults] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
 
-  const steps = ["Search", "Set times"];
+  const steps = ["Buscar", "Agendar"];
 
   useEffect(() => {
     if (ready === true) {
@@ -72,7 +73,9 @@ const Event = (props) => {
     setRemove(props.remove);
     setStart(props.event.start);
     setEnd(props.event.end);
-    setResourceId(props.event.resourceId);
+    props.event.resourceId
+      ? setResourceId(props.event.resourceId)
+      : setResourceId(1);
   };
 
   const handleTimeChange = (date, time) => {
@@ -98,7 +101,7 @@ const Event = (props) => {
   };
   const handleRemove = () => {
     const r = window.confirm(
-      "Are you sure you want to remove this scheduled patient?"
+      "¿Estás seguro que deseas eliminar esta cita de la agenda?"
     );
     if (r === true) {
       setRemove(true);
@@ -146,9 +149,7 @@ const Event = (props) => {
               required
               fullWidth
             >
-              <InputLabel htmlFor="title">
-                Search and select a patient
-              </InputLabel>
+              <InputLabel htmlFor="title">Buscar paciente</InputLabel>
               <Input
                 id="title"
                 name="title"
@@ -168,6 +169,7 @@ const Event = (props) => {
                         onClick={() => selectPatient(patient)}
                       >
                         <span> {patient.name} </span>
+                        <span> {patient.tel} </span>
                       </li>
                     );
                   })}
@@ -184,7 +186,15 @@ const Event = (props) => {
                 <h3>{props.event.title}</h3>
               </Link>
             ) : (
-              <h3>{patient.name}</h3>
+              <div className="newSelected">
+                <IconButton
+                  // variant="contained"
+                  onClick={handleBack}
+                >
+                  <i className="material-icons">arrow_back</i>
+                </IconButton>
+                <h3>{patient.name}</h3>
+              </div>
             )}
             <div className="pickers">
               <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -208,6 +218,27 @@ const Event = (props) => {
                 />
               </MuiPickersUtilsProvider>
             </div>
+            <FormControl
+              className="selectSala"
+              size="small"
+              variant="outlined"
+              fullWidth
+            >
+              <InputLabel htmlFor="sala">Sala</InputLabel>
+              <Select
+                defaultValue={
+                  props.event.resourceId ? props.event.resourceId : resourceId
+                }
+                value={resourceId}
+                onChange={(e) => setResourceId(e.target.value)}
+                input={<OutlinedInput labelWidth={30} id="sala" />}
+              >
+                <MenuItem value={1}>Tomografía</MenuItem>
+                <MenuItem value={2}>Rayos X</MenuItem>
+                <MenuItem value={3}>Ultrasonido</MenuItem>
+                <MenuItem value={4}>Mastografía</MenuItem>
+              </Select>
+            </FormControl>
           </div>
         );
       default:
@@ -231,7 +262,7 @@ const Event = (props) => {
       <Draggable handle=".header">
         <div className="eventModal">
           <div className="header">
-            <h3 id="form-dialog-title"> {props.title} </h3>
+            <h2 id="form-dialog-title"> {props.title} </h2>
             {delbtn ? (
               <IconButton onClick={handleRemove}>
                 <i className="material-icons">delete</i>
@@ -246,20 +277,21 @@ const Event = (props) => {
               <Button
                 variant="contained"
                 color="primary"
+                fullWidth
                 onClick={handleSubmit}
               >
-                Edit
+                Guardar
               </Button>
             </div>
           ) : (
             <div className="newContent">
-              <Stepper activeStep={activeStep} alternativeLabel>
+              {/* <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label) => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
                   </Step>
                 ))}
-              </Stepper>
+              </Stepper> */}
               {getStepContent(activeStep)}
               {activeStep === 0 ? (
                 <div />
@@ -267,17 +299,11 @@ const Event = (props) => {
                 <div className="btns">
                   <Button
                     variant="contained"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
                     color="primary"
                     onClick={handleSubmit}
+                    fullWidth
                   >
-                    Save
+                    Guardar
                   </Button>
                 </div>
               )}

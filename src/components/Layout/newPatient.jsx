@@ -49,6 +49,7 @@ const NewPatient = (props) => {
   const [state, setState] = useState(null);
   const [diaCita, setDiaCita] = useState(null);
   const [horaCita, setHoraCita] = useState(null);
+  const [sala, setSala] = useState(2);
 
   const estados = [
     "Aguascalientes",
@@ -150,6 +151,7 @@ const NewPatient = (props) => {
             end: end,
             patientid: docRef.id,
             dia: moment(start).format("YYYY-MM-DD"),
+            resourceId: sala,
           };
           console.log(newEvent);
           db.collection("events")
@@ -193,20 +195,21 @@ const NewPatient = (props) => {
     setState(null);
     setDiaCita(null);
     setHoraCita(null);
+    setSala(2);
   };
 
   return (
     <Modal
       open={props.open}
       onClose={handleClose}
-      aria-labelledby="form-dialog-name"
+      // aria-labelledby="form-dialog-name"
       onRendered={resetProps}
     >
-      <Draggable handle=".header">
+      <Draggable handle="strong">
         <div className="newPatientModal">
-          <div className="header">
+          <strong>
             <h3 id="form-dialog-name"> Nuevo Paciente </h3>
-          </div>
+          </strong>
           <form onSubmit={handleSubmit} className="contentNewPatientModal">
             <div className="superiorData">
               <TextField
@@ -396,8 +399,8 @@ const NewPatient = (props) => {
               </div>
             </div>
             <div className="agendarPaciente">
+              <h4>Programar cita:</h4>
               <MuiPickersUtilsProvider utils={MomentUtils}>
-                <p>Programar cita:</p>
                 <DatePicker
                   autoOk
                   inputVariant="outlined"
@@ -414,8 +417,24 @@ const NewPatient = (props) => {
                   onChange={setHoraCita}
                   minutesStep="5"
                 />
-                <span></span>
               </MuiPickersUtilsProvider>
+              <FormControl
+                className="selectSala"
+                size="small"
+                variant="outlined"
+              >
+                <InputLabel htmlFor="sala">Sala</InputLabel>
+                <Select
+                  value={sala}
+                  onChange={(e) => setSala(e.target.value)}
+                  input={<OutlinedInput labelWidth={30} id="sala" />}
+                >
+                  <MenuItem value={1}>Tomografía</MenuItem>
+                  <MenuItem value={2}>Rayos X</MenuItem>
+                  <MenuItem value={3}>Ultrasonido</MenuItem>
+                  <MenuItem value={4}>Mastografía</MenuItem>
+                </Select>
+              </FormControl>
             </div>
             <Button
               className="addBtn"
