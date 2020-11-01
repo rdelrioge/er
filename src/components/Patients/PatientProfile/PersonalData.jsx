@@ -30,6 +30,7 @@ function PersonalData(props) {
 
   useEffect(() => {
     setPatient(props.patient);
+    if (props.patient.dob !== null) setMyDate(props.patient.dob);
     console.log(props.patient);
   }, [props]);
 
@@ -73,6 +74,11 @@ function PersonalData(props) {
 
   const handleClose = () => {
     props.onClose();
+  };
+
+  const parseDate = (ev) => {
+    console.log(ev);
+    setMyDate(ev);
   };
 
   return (
@@ -156,8 +162,9 @@ function PersonalData(props) {
                 format="DD/MM/YYYY"
                 helperText="dd/mm/yyyy"
                 size="small"
-                value={patient.dob ? patient.dob : null}
-                onChange={setMyDate}
+                defaultValue={patient.dob ? patient.dob : null}
+                value={mydate}
+                onChange={(ev) => parseDate(ev)}
               />
             </MuiPickersUtilsProvider>
           </DialogContent>

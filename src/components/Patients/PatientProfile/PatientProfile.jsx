@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import "./PatientProfile.scss";
+import defaultPP from "../../../assets/pp2.png";
 
 import { db } from "../../../index";
 import { UserContext } from "../../../Store";
@@ -51,20 +52,29 @@ function PatientProfile(props) {
     <div className="patientProfile">
       {patient ? (
         <>
-          <div className="superior">
-            <div className="patient">
-              <h1>
-                {patient.name}
-                <IconButton onClick={() => setPersonalDataModal(true)}>
-                  <i className="material-icons">edit</i>
-                </IconButton>
-              </h1>
-              <div className="patientData">
-                <div className="left">
+          <h2>Registro médico de {patient.name}</h2>
+          <div className="mainPatientProfile">
+            <div className="superior">
+              <Paper className="patient">
+                <div className="patientMain">
+                  <img src={defaultPP} alt="PP" />
+                  <b>{patient.name}</b>
+                  <IconButton onClick={() => setPersonalDataModal(true)}>
+                    <i className="material-icons">edit</i>
+                  </IconButton>
+                </div>
+                <div className="patientData">
                   {patient.regid ? (
-                    <span>
+                    <span className="regid">
                       <b>Reg ID: </b>
                       {patient.regid}
+                    </span>
+                  ) : null}
+                  {patient.gender ? (
+                    <span>
+                      <b>Sexo: </b>
+                      {patient.gender === "M" ? "Masculino" : null}
+                      {patient.gender === "F" ? "Femenino" : null}
                     </span>
                   ) : null}
                   {patient.age ? (
@@ -73,13 +83,12 @@ function PatientProfile(props) {
                       {patient.age + " años"}
                     </span>
                   ) : null}
-                  {patient.gender ? (
-                    <span>
-                      <b>Sexo: </b> {patient.gender}
+                  {patient.dob ? (
+                    <span className="dob">
+                      <b>Fecha de nacimiento: </b>
+                      {patient.dob}
                     </span>
                   ) : null}
-                </div>
-                <div className="right">
                   {patient.tel ? (
                     <span>
                       <b>Teléfono: </b>
@@ -99,95 +108,96 @@ function PatientProfile(props) {
                     </span>
                   ) : null}
                 </div>
+              </Paper>
+              <div className="clinicalHistory">
+                <div className="sectionHeader">
+                  <span>Historia Clínica</span>
+                  <IconButton onClick={() => setClinicalHistoryModal(true)}>
+                    <i className="material-icons">edit</i>
+                  </IconButton>
+                </div>
+                <div className="sectionContent">
+                  <div className="superiorCH">
+                    {patient.weight ? (
+                      <span>
+                        <b>Peso: </b>
+                        {patient.weight + " Kgs"}
+                      </span>
+                    ) : null}
+                    {patient.bloodGroup ? (
+                      <span>
+                        <b>Tipo de sangre: </b> {patient.bloodGroup}
+                      </span>
+                    ) : null}
+                    {patient.height ? (
+                      <span>
+                        <b>Estatura: </b>
+                        {patient.height + " cms"}
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="inferiorCH">
+                    {patient.allergies ? (
+                      <span>
+                        <b>Alergias: </b>
+                        {patient.allergies}
+                      </span>
+                    ) : null}
+                    {patient.medications ? (
+                      <span>
+                        <b>Medicamentos: </b>
+                        {patient.medications}
+                      </span>
+                    ) : null}
+                    {patient.disorders ? (
+                      <span>
+                        <b>Enfermedades congénitas: </b> {patient.disorders}
+                      </span>
+                    ) : null}
+                    {patient.notes ? (
+                      <span>
+                        <b>Notas: </b> {patient.notes}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="clinicalHistory">
-              <div className="sectionHeader">
-                <span>Historia Clínica</span>
-                <IconButton onClick={() => setClinicalHistoryModal(true)}>
-                  <i className="material-icons">edit</i>
-                </IconButton>
+            <Paper className="inferior">
+              <div className="appointments">
+                {appointments.length > 0 ? (
+                  <Appointments appointments={appointments} user={user} />
+                ) : (
+                  <div className="noappointments">
+                    Agende una consulta para {patient.name}
+                  </div>
+                )}
               </div>
-              <div className="sectionContent">
-                <div className="superiorCH">
-                  {patient.weight ? (
-                    <span>
-                      <b>Peso: </b>
-                      {patient.weight + " Kgs"}
-                    </span>
-                  ) : null}
-                  {patient.height ? (
-                    <span>
-                      <b>Estatura: </b>
-                      {patient.height + " cms"}
-                    </span>
-                  ) : null}
-                  {patient.bloodGroup ? (
-                    <span>
-                      <b>Tipo de sangre: </b> {patient.bloodGroup}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="inferiorCH">
-                  {patient.allergies ? (
-                    <span>
-                      <b>Alergias: </b>
-                      {patient.allergies}
-                    </span>
-                  ) : null}
-                  {patient.medications ? (
-                    <span>
-                      <b>Medicamentos: </b>
-                      {patient.medications}
-                    </span>
-                  ) : null}
-                  {patient.disorders ? (
-                    <span>
-                      <b>Enfermedades congénitas: </b> {patient.disorders}
-                    </span>
-                  ) : null}
-                  {patient.notes ? (
-                    <span>
-                      <b>Notas: </b> {patient.notes}
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-            </div>
+            </Paper>
           </div>
-          <Paper className="inferior">
-            <div className="appointments">
-              {appointments.length > 0 ? (
-                <Appointments appointments={appointments} user={user} />
-              ) : (
-                <div className="noappointments">
-                  Agende una consulta para {patient.name}
-                </div>
-              )}
-            </div>
-          </Paper>
-          {personalDataModal ? (
-            <PersonalData
-              patient={patient}
-              patRef={patRef}
-              user={user}
-              open={personalDataModal}
-              onClose={() => setPersonalDataModal(false)}
-            />
-          ) : null}
-          {clinicalHistoryModal ? (
-            <ClinicalHistory
-              patient={patient}
-              patRef={patRef}
-              user={user}
-              open={clinicalHistoryModal}
-              onClose={() => setClinicalHistoryModal(false)}
-            />
-          ) : null}
         </>
       ) : (
         <div>Loading...</div>
       )}
+      {/* ===== MODALS ===== */}
+      {personalDataModal ? (
+        <PersonalData
+          patient={patient}
+          patRef={patRef}
+          user={user}
+          open={personalDataModal}
+          onClose={() => setPersonalDataModal(false)}
+        />
+      ) : null}
+      {clinicalHistoryModal ? (
+        <ClinicalHistory
+          patient={patient}
+          patRef={patRef}
+          user={user}
+          open={clinicalHistoryModal}
+          onClose={() => setClinicalHistoryModal(false)}
+        />
+      ) : null}
     </div>
   );
 }
