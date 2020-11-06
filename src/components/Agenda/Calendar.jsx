@@ -26,7 +26,6 @@ const Calendario = () => {
   }, [view]);
 
   const openCreateModal = (ev) => {
-    console.log(ev);
     setActualEvent({
       start: ev.start,
       end: ev.end,
@@ -36,7 +35,6 @@ const Calendario = () => {
     setOpenCreate(true);
   };
   const createEvent = (event) => {
-    console.log(event);
     setOpenCreate(false);
     if (event.ready) {
       let newEvent = {
@@ -77,7 +75,8 @@ const Calendario = () => {
 
   const editEvent = ({ event, start, end, resourceId }) => {
     let newEvent = null;
-    if (resourceId === null) {
+    if (resourceId === undefined || resourceId === null) {
+      console.log("undefined");
       newEvent = {
         ...event,
         start,
@@ -86,16 +85,26 @@ const Calendario = () => {
         startTS: moment(start).local().valueOf(),
       };
     } else {
-      newEvent = {
-        ...event,
-        start,
-        end,
-        dia: moment(start).format("YYYY-MM-DD"),
-        startTS: moment(start).local().valueOf(),
-        resourceId,
-      };
+      if (event.resourceId === resourceId) {
+        newEvent = {
+          ...event,
+          start,
+          end,
+          dia: moment(start).format("YYYY-MM-DD"),
+          startTS: moment(start).local().valueOf(),
+          resourceId: event.resourceId,
+        };
+      } else {
+        newEvent = {
+          ...event,
+          start,
+          end,
+          dia: moment(start).format("YYYY-MM-DD"),
+          startTS: moment(start).local().valueOf(),
+          resourceId: resourceId,
+        };
+      }
     }
-
     db.collection("events")
       .doc(event.uid)
       .update(newEvent)
@@ -134,7 +143,6 @@ const Calendario = () => {
     }
     let inicio = moment(start).local().valueOf();
     let final = moment(end).local().valueOf();
-    console.log(inicio);
     db.collection("events")
       .where("startTS", ">=", inicio)
       .where("startTS", "<=", final)
@@ -161,9 +169,7 @@ const Calendario = () => {
               };
               myEvents.push(evn);
               counter++;
-              console.log("read DB");
               if (counter === datalength) {
-                console.log(myEvents);
                 setEvents(myEvents);
               }
             });
@@ -207,16 +213,6 @@ const Calendario = () => {
           max={new Date("2019, 1, 1, 20:00")}
           style={{ height: "72vh" }}
           components={{
-            // event: (ev) => (
-            //   <span>
-            //     {/* <b>
-            //       {ev.event.resourceId
-            //         ? `${resourceMap[ev.event.resourceId - 1].abr}: `
-            //         : null}
-            //     </b> */}
-            //     {ev.title}
-            //   </span>
-            // ),
             agenda: {
               event: (ev) => (
                 <>
@@ -227,8 +223,7 @@ const Calendario = () => {
                         color: resourceMap[ev.event.resourceId - 1].color,
                         backgroundColor: "none",
                         textDecoration: "none",
-                      }}
-                    >
+                      }}>
                       {`${ev.title} - ${
                         resourceMap[ev.event.resourceId - 1].sala
                       }`}

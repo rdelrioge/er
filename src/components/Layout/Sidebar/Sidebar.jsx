@@ -13,13 +13,16 @@ const Sidebar = () => {
 
   return (
     <ul>
-      <NavLink className="li" to="/" activeStyle={{ color: variables.primary }}>
+      <NavLink
+        className="li"
+        exact
+        to="/"
+        activeStyle={{ color: variables.primary }}>
         <i className="material-icons">point_of_sale</i>
         <span>Venta</span>
       </NavLink>
       <NavLink
         className="li"
-        exact
         to="/agenda"
         activeStyle={{ color: variables.primary }}>
         <i className="material-icons">event</i>

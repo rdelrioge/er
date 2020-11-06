@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 
 import "./index.scss";
-
+import 'moment/locale/es';
 // Firebase
 import firebase from "firebase/app";
 import fbconfig from "./fbconfig";

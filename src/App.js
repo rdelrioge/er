@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-
 // Import Material theme provider
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
@@ -10,7 +9,7 @@ import Layout from "./components/Layout/Layout.jsx";
 import variables from "./index.scss";
 
 const App = () => {
-  return (
+    return (
     <Store>
       <MuiThemeProvider theme={theme}>
         <BrowserRouter basename={process.env.PUBLIC_URL}>

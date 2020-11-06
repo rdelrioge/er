@@ -96,8 +96,7 @@ function PersonalData(props) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handlePersonalData}
-              >
+                onClick={handlePersonalData}>
                 Guardar
               </Button>
             </DialogTitle>
@@ -144,8 +143,7 @@ function PersonalData(props) {
                 }
                 input={
                   <OutlinedInput labelWidth={50} name="gender" id="gender" />
-                }
-              >
+                }>
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>

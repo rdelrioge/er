@@ -166,8 +166,7 @@ const Pacientes = () => {
                 name="filtroBuscar"
                 id="filtroBuscar"
               />
-            }
-          >
+            }>
             <MenuItem value="name">Nombre(s)</MenuItem>
             <MenuItem value="regid">No de registro</MenuItem>
             <MenuItem value="tel">Teléfono</MenuItem>
@@ -187,8 +186,7 @@ const Pacientes = () => {
                   <li key={index} className={index % 2 ? "odd" : "even"}>
                     <Link
                       to={{ pathname: `/patient/${patient.uid}` }}
-                      className="gridBody"
-                    >
+                      className="gridBody">
                       <span> {patient.name} </span>
                       <span> {patient.tel} </span>
                     </Link>

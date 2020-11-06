@@ -1,0 +1,217 @@
+.pointOfSales {
+  h1 {
+    color: dimgray;
+    margin-right: 2em;
+    text-align: center;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    column-gap: 1em;
+    .left {
+      .sinEstudios {
+        text-align: center;
+        h1 {
+          margin-left: 2em;
+        }
+      }
+      .divider {
+        display: grid;
+        grid-template-columns: 3fr 1fr 3fr;
+        color: dimgray;
+        margin: 0 2em 1em 2em;
+        span {
+          border-bottom: 1px solid lightgray;
+        }
+        b {
+          text-align: center;
+        }
+      }
+      .acordion {
+        border-radius: 20px;
+        transition: all 0.5s;
+        margin: 0 4em 1em 4em;
+        .acordionHeader {
+          .acordionHeaderContent {
+            display: grid;
+            grid-template-columns: 2fr 5fr 2fr 1fr;
+            column-gap: 0.5em;
+            width: 100%;
+            align-items: center;
+            text-align: center;
+            .tiempoCita {
+              border-right: 2px solid lightgray;
+              padding: 0;
+              font-size: 1.4em;
+              font-weight: bold;
+              color: dimgray;
+              display: grid;
+              grid-auto-flow: row;
+              b {
+                font-size: 0.6em;
+                color: lightgray;
+              }
+            }
+            .nombreCita {
+              color: dimgray;
+              font-size: 1.2em;
+              font-weight: bold;
+              align-items: center;
+              display: flex;
+              justify-content: center;
+              img {
+                width: 3em;
+                height: 3em;
+                margin: 0 1em 0 0;
+                transition: transform 0.5s;
+                border-radius: 80px;
+                border: 4px solid transparent;
+
+                background-image: linear-gradient(white, white),
+                  radial-gradient(circle at top left, #46d0f7, #7d2ae8);
+                background-origin: border-box;
+                background-clip: content-box, border-box;
+              }
+            }
+            .estudiosLength {
+              color: dimgray;
+              font-size: 1.2em;
+              font-weight: bold;
+            }
+            .check {
+              color: #4caf50;
+              font-size: 3em;
+            }
+            .pending {
+              color: #ff9800;
+              font-size: 3em;
+            }
+          }
+        }
+      }
+      .acordion:hover {
+        transform: scale(1.02);
+      }
+      .acordion:last-child {
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+      .acordionDetails {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        .acordionDetailsGrid {
+          display: grid;
+          grid-auto-flow: row;
+          text-align: center;
+          margin: 0;
+          .estudio {
+            border-left: 8px solid;
+            height: 2em;
+            margin-bottom: 0.2em;
+            list-style: none;
+            align-items: center;
+            display: grid;
+            grid-auto-flow: column;
+            column-gap: 1em;
+            span {
+              min-width: 10em;
+              text-align: center;
+            }
+          }
+        }
+        .cobrarBtn {
+          margin: auto;
+          min-width: 10em;
+          height: 3em;
+          color: #ffffff;
+          background-color: #4caf50;
+          font-weight: bold;
+        }
+        .cobrarBtn:hover {
+          background-color: #429745;
+        }
+      }
+      .pagados {
+        .acordion {
+          border: 2px solid #4caf50;
+          // transition: all 0.5s;
+          // margin-bottom: 1em;
+          .acordionDetailsP {
+            grid-template-columns: 1fr;
+          }
+        }
+        .acordion:hover {
+          transform: scale(1.02);
+        }
+      }
+    }
+    .right {
+      .rightSuperior {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        // margin: 0 4em;
+        .cardCount {
+          width: 16em;
+          margin: 0 1em;
+          border-radius: 12px;
+          border: 4px solid transparent;
+          border-left: none;
+          border-top: none;
+          background-image: linear-gradient(white, white),
+            radial-gradient(circle at bottom left, #46d0f7, #7d2ae8);
+          background-origin: border-box;
+          background-clip: content-box, border-box;
+          transition: transform 0.5s;
+          .cardContentCount {
+            display: grid;
+            grid-auto-flow: row;
+            text-align: center;
+            b {
+              font-size: 6em;
+              color: #7d2ae8;
+            }
+            span {
+              color: dimgray;
+              font-weight: bold;
+              font-size: 1.4em;
+            }
+            .dia {
+              line-height: 1em;
+              color: #46d0f7;
+            }
+            .mes {
+              color: black;
+            }
+            h1 {
+              margin: 0;
+            }
+          }
+        }
+        .cardCount:hover {
+          transform: scale(1.05);
+        }
+      }
+      .rightInf {
+        margin: 3em;
+        border-radius: 18px;
+        border: 10px solid transparent;
+        background-image: linear-gradient(white, white),
+          radial-gradient(circle at top left, lightgray, #2b2336);
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+        transition: all 1s;
+      }
+      .rightInf:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+  .MuiAccordion-root.Mui-expanded {
+    transform: scale(1.02);
+    margin: 0 2em 1em 2em !important;
+  }
+  .MuiAccordion-root:before {
+    background: none;
+  }
+}

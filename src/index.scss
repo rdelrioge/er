@@ -1,15 +1,15 @@
-*,
-::after,
-::before {
-  box-sizing: inherit;
-  font-family: Product Sans;
-}
+// *,
+// ::after,
+// ::before {
+//   box-sizing: inherit;
+//   font-family: Product Sans;
+// }
 
 body {
   margin: 0;
   padding: 0;
   background: white;
-  font-family: "Nunito", sans-serif;
+  font-family: Product Sans;
 }
 /* Colors for theme */
 $primary: #46d0f7;

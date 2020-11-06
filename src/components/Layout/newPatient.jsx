@@ -104,64 +104,68 @@ const NewPatient = (props) => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    if (age) {
-      let created = new Date();
-      let name =
-        firstname +
-        (secondname ? ` ${secondname} ` : " ") +
-        lastname +
-        (seclastname ? ` ${seclastname}` : "");
-
-      let mins = moment(horaCita).minutes();
-      let hours = moment(horaCita).hours();
-      let start = new Date(diaCita);
-      start.setHours(hours);
-      start.setMinutes(mins);
-      let end = moment(start).add(30, "minutes").toDate();
-      db.collection("patients")
-        .add({
-          regid,
-          name,
-          secondname,
-          lastname,
-          seclastname,
-          dob: moment(dob).format("DD-MMM-YYYY"),
-          age,
-          gender,
-          tel,
-          email,
-          direccion: {
-            address,
-            numExt,
-            numInt,
-            county,
-            postalCode,
-            city,
-            state,
-          },
-          created: created.getTime(),
-          owner: user,
-        })
-        .then((docRef) => {
-          console.log("Doc written with ID: ", docRef.id);
-          let newEvent = {
-            title: name,
-            start: start,
-            startTS: moment(start).local().valueOf(),
-            end: end,
-            patientid: docRef.id,
-            dia: moment(start).format("YYYY-MM-DD"),
-            resourceId: sala,
-          };
-          console.log(newEvent);
-          db.collection("events")
-            .add(newEvent)
-            .catch((err) => console.log("Error addign event: ", err));
-        })
-        .catch((err) => console.log("Error addign doc: ", err));
-      props.onClose();
+    if (gender === "") {
+      alert("ingrese el genero correctamente");
     } else {
-      alert("Ingresa correctamente la fecha de nacimiento");
+      if (age) {
+        let created = new Date();
+        let name =
+          firstname +
+          (secondname ? ` ${secondname} ` : " ") +
+          lastname +
+          (seclastname ? ` ${seclastname}` : "");
+
+        let mins = moment(horaCita).minutes();
+        let hours = moment(horaCita).hours();
+        let start = new Date(diaCita);
+        start.setHours(hours);
+        start.setMinutes(mins);
+        let end = moment(start).add(30, "minutes").toDate();
+        db.collection("patients")
+          .add({
+            regid,
+            name,
+            secondname,
+            lastname,
+            seclastname,
+            dob: moment(dob).format("DD-MMM-YYYY"),
+            age,
+            gender,
+            tel,
+            email,
+            direccion: {
+              address,
+              numExt,
+              numInt,
+              county,
+              postalCode,
+              city,
+              state,
+            },
+            created: created.getTime(),
+            owner: user,
+          })
+          .then((docRef) => {
+            console.log("Doc written with ID: ", docRef.id);
+            let newEvent = {
+              title: name,
+              start: start,
+              startTS: moment(start).local().valueOf(),
+              end: end,
+              patientid: docRef.id,
+              dia: moment(start).format("YYYY-MM-DD"),
+              resourceId: sala,
+            };
+            console.log(newEvent);
+            db.collection("events")
+              .add(newEvent)
+              .catch((err) => console.log("Error addign event: ", err));
+          })
+          .catch((err) => console.log("Error addign doc: ", err));
+        props.onClose();
+      } else {
+        alert("Ingresa correctamente la fecha de nacimiento");
+      }
     }
   };
 
@@ -203,8 +207,7 @@ const NewPatient = (props) => {
       open={props.open}
       onClose={handleClose}
       // aria-labelledby="form-dialog-name"
-      onRendered={resetProps}
-    >
+      onRendered={resetProps}>
       <Draggable handle="strong">
         <div className="newPatientModal">
           <strong>
@@ -298,16 +301,14 @@ const NewPatient = (props) => {
               <FormControl
                 className="selectGender"
                 size="small"
-                variant="outlined"
-              >
-                <InputLabel htmlFor="gender">Género</InputLabel>
+                variant="outlined">
+                <InputLabel htmlFor="gender">Género *</InputLabel>
                 <Select
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
                   input={
                     <OutlinedInput labelWidth={50} name="gender" id="gender" />
-                  }
-                >
+                  }>
                   <MenuItem value="M">Masculino</MenuItem>
                   <MenuItem value="F">Femenino</MenuItem>
                 </Select>
@@ -421,14 +422,12 @@ const NewPatient = (props) => {
               <FormControl
                 className="selectSala"
                 size="small"
-                variant="outlined"
-              >
+                variant="outlined">
                 <InputLabel htmlFor="sala">Sala</InputLabel>
                 <Select
                   value={sala}
                   onChange={(e) => setSala(e.target.value)}
-                  input={<OutlinedInput labelWidth={30} id="sala" />}
-                >
+                  input={<OutlinedInput labelWidth={30} id="sala" />}>
                   <MenuItem value={1}>Tomografía</MenuItem>
                   <MenuItem value={2}>Rayos X</MenuItem>
                   <MenuItem value={3}>Ultrasonido</MenuItem>
@@ -440,8 +439,7 @@ const NewPatient = (props) => {
               className="addBtn"
               type="submit"
               variant="contained"
-              color="primary"
-            >
+              color="primary">
               Agregar
             </Button>
           </form>

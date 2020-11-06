@@ -41,11 +41,9 @@ const Store = ({ children }) => {
           myPatients.push(pat);
         });
         setPatients(myPatients);
-        console.log("Read patients from DB");
-        console.log(data);
         data.docChanges().forEach((change) => {
           if (change.type === "modified") {
-            console.log("Modified city: ", change.doc.data());
+            console.log("Modified: ", change.doc.data());
           }
         });
       }

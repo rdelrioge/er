@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import "./PatientProfile.scss";
-import defaultPP from "../../../assets/pp2.png";
+import defaultPPM from "../../../assets/ppm.png";
+import defaultPPF from "../../../assets/ppf.png";
+import defaultPPO from "../../../assets/ppo.png";
 
 import { db } from "../../../index";
 import { UserContext } from "../../../Store";
@@ -57,7 +59,7 @@ function PatientProfile(props) {
             <div className="superior">
               <Paper className="patient">
                 <div className="patientMain">
-                  <img src={defaultPP} alt="PP" />
+                <img src={patient.gender === "M" ? defaultPPM : patient.gender === "F" ? defaultPPF : defaultPPO} alt="PP" />
                   <b>{patient.name}</b>
                   <IconButton onClick={() => setPersonalDataModal(true)}>
                     <i className="material-icons">edit</i>

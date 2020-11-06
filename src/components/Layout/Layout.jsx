@@ -45,8 +45,7 @@ function Layout() {
       <Fab
         className="newPatientBtn"
         color="primary"
-        onClick={() => setNewPatientModal(true)}
-      >
+        onClick={() => setNewPatientModal(true)}>
         <i className="material-icons">add</i>
       </Fab>
       <NewPatient
