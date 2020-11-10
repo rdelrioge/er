@@ -35,6 +35,13 @@ const Sidebar = () => {
         <i className="material-icons">people</i>
         <span>Patients</span>
       </NavLink>
+      <NavLink
+        className="li"
+        to="/admindb"
+        activeStyle={{ color: variables.primary }}>
+        <i className="material-icons">receipt</i>
+        <span>Contabilidad</span>
+      </NavLink>
       <span className="spacer" />
       <div className="li" onClick={logout}>
         <i className="material-icons">exit_to_app</i>

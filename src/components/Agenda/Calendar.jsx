@@ -179,7 +179,7 @@ const Calendario = () => {
 
   const resourceMap = [
     { resourceId: 1, sala: "Tomografia", abr: "TAC", color: "#00bcd4" },
-    { resourceId: 2, sala: "Rayos X", abr: "RX", color: "#f44336" },
+    { resourceId: 2, sala: "Rayos X", abr: "RX", color: "#FFC107" },
     { resourceId: 3, sala: "Ultrasonido", abr: "UL", color: "#4caf50" },
     { resourceId: 4, sala: "Mastografia", abr: "XM", color: "#e91e63" },
   ];

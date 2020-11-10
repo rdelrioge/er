@@ -1,0 +1,16 @@
+.contabilidadC {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  column-gap: 1em;
+  .tablaTicketsC {
+    margin: 1em;
+    th {
+      color: dimgray;
+      font-weight: bold;
+    }
+    li {
+      list-style: none;
+      margin-bottom: 2px;
+    }
+  }
+}

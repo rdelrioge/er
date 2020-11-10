@@ -38,7 +38,7 @@ function Venta() {
 
   const salas = ["", "Tomografia", "Rayos X", "Ultrasonido", "Mastografía"];
   const precios = ["", 500, 400, 300, 200];
-  const colores = ["", "#00bcd4", "#f44336", "#4caf50", "#e91e63"];
+  const colores = ["", "#00bcd4", "#FFC107", "#4caf50", "#e91e63"];
 
   // Al iniciar buscar en la DB los eventos de hoy
   // Despues si hay eventos (eventos.lenght > 0) agrupar por paciente y calcular total

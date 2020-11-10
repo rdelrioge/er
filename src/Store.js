@@ -29,26 +29,26 @@ const Store = ({ children }) => {
   //     });
   // }, []);
 
-  // READ FOR PATIENTS IN DB USING ONSNAPSHOT()
-  useEffect(() => {
-    db.collection("patients").onSnapshot(
-      { includeMetadataChanges: true },
-      (data) => {
-        let myPatients = [];
-        data.forEach((patient) => {
-          console.log(patient);
-          let pat = { ...patient.data(), uid: patient.id };
-          myPatients.push(pat);
-        });
-        setPatients(myPatients);
-        data.docChanges().forEach((change) => {
-          if (change.type === "modified") {
-            console.log("Modified: ", change.doc.data());
-          }
-        });
-      }
-    );
-  }, []);
+  // // READ FOR PATIENTS IN DB USING ONSNAPSHOT()
+  // useEffect(() => {
+  //   db.collection("patients").onSnapshot(
+  //     { includeMetadataChanges: true },
+  //     (data) => {
+  //       let myPatients = [];
+  //       data.forEach((patient) => {
+  //         console.log(patient);
+  //         let pat = { ...patient.data(), uid: patient.id };
+  //         myPatients.push(pat);
+  //       });
+  //       setPatients(myPatients);
+  //       data.docChanges().forEach((change) => {
+  //         if (change.type === "modified") {
+  //           console.log("Modified: ", change.doc.data());
+  //         }
+  //       });
+  //     }
+  //   );
+  // }, []);
 
   // db.collection("patients").onSnapshot((snap) => {
   //   console.log("onSnapStore");
