@@ -7,14 +7,15 @@ import {
   FormControl,
   Input,
   InputLabel,
-  Modal,
   IconButton,
   Stepper,
   Select,
+  Dialog,
   Step,
   StepLabel,
   MenuItem,
   OutlinedInput,
+  Zoom,
 } from "@material-ui/core";
 
 import { TimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -147,8 +148,7 @@ const Event = (props) => {
               className="titleinput"
               margin="normal"
               required
-              fullWidth
-            >
+              fullWidth>
               <InputLabel htmlFor="title">Buscar paciente</InputLabel>
               <Input
                 id="title"
@@ -166,8 +166,7 @@ const Event = (props) => {
                       <li
                         key={index}
                         className={index % 2 ? "even" : "odd"}
-                        onClick={() => selectPatient(patient)}
-                      >
+                        onClick={() => selectPatient(patient)}>
                         <span> {patient.name} </span>
                         <span> {patient.tel} </span>
                       </li>
@@ -189,8 +188,7 @@ const Event = (props) => {
               <div className="newSelected">
                 <IconButton
                   // variant="contained"
-                  onClick={handleBack}
-                >
+                  onClick={handleBack}>
                   <i className="material-icons">arrow_back</i>
                 </IconButton>
                 <h3>{patient.name}</h3>
@@ -222,8 +220,7 @@ const Event = (props) => {
               className="selectSala"
               size="small"
               variant="outlined"
-              fullWidth
-            >
+              fullWidth>
               <InputLabel htmlFor="sala">Sala</InputLabel>
               <Select
                 defaultValue={
@@ -231,8 +228,7 @@ const Event = (props) => {
                 }
                 value={resourceId}
                 onChange={(e) => setResourceId(e.target.value)}
-                input={<OutlinedInput labelWidth={30} id="sala" />}
-              >
+                input={<OutlinedInput labelWidth={30} id="sala" />}>
                 <MenuItem value={1}>Tomografía</MenuItem>
                 <MenuItem value={2}>Rayos X</MenuItem>
                 <MenuItem value={3}>Ultrasonido</MenuItem>
@@ -252,13 +248,13 @@ const Event = (props) => {
   }
 
   return (
-    <Modal
+    <Dialog
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
       disableAutoFocus={delbtn}
       onRendered={mapPropsToState}
-    >
+      TransitionComponent={Zoom}>
       <Draggable handle=".header">
         <div className="eventModal">
           <div className="header">
@@ -278,20 +274,12 @@ const Event = (props) => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={handleSubmit}
-              >
+                onClick={handleSubmit}>
                 Guardar
               </Button>
             </div>
           ) : (
             <div className="newContent">
-              {/* <Stepper activeStep={activeStep} alternativeLabel>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper> */}
               {getStepContent(activeStep)}
               {activeStep === 0 ? (
                 <div />
@@ -301,8 +289,7 @@ const Event = (props) => {
                     variant="contained"
                     color="primary"
                     onClick={handleSubmit}
-                    fullWidth
-                  >
+                    fullWidth>
                     Guardar
                   </Button>
                 </div>
@@ -311,7 +298,7 @@ const Event = (props) => {
           )}
         </div>
       </Draggable>
-    </Modal>
+    </Dialog>
   );
 };
 
