@@ -1,17 +1,19 @@
 .cobrarC {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: 2em;
   border-radius: 20px !important;
   min-height: 39vh !important;
   /* max-height: 48vh !important; */
   background-color: white;
   color: dimgray;
   padding: 2em;
-  width: 60%;
-  margin: 10% auto;
+  // width: 60vw;
+  margin: auto;
   transition: all 1s;
   outline: none;
   .left {
+    text-align: center;
     h1 {
       text-align: center;
     }
@@ -24,36 +26,35 @@
     .gridCambio {
       display: grid;
       grid-template-columns: 2fr 1fr;
+      align-items: baseline;
       p {
         text-align: right;
         padding-right: 1em;
       }
-      span {
+      strong {
         margin: auto;
         margin-left: 0;
       }
     }
     .cobrar {
-      background-color: #8bc34a;
-      color: white;
-      font-weight: bolder;
       width: 92%;
       font-size: 2em;
       height: 2em;
-      margin: 0.7em auto;
+      margin-top: 1em;
       border-radius: 10px;
-      display: block;
-      margin-bottom: 0;
     }
   }
   .right {
+    width: 25em;
+    height: 24em;
     .pago {
       color: darkgray;
       .radioFormaDePago {
         margin-bottom: 1em;
         .radioGroupFdP {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr;
+          justify-items: center;
         }
       }
       .efectivo {
@@ -64,10 +65,9 @@
           color: dimgray;
           font-size: 2em;
           text-align: center;
-          margin-bottom: 0.2em;
-          width: 100%;
-          display: block;
           outline: none;
+          margin: 0 auto 0.2em auto;
+          display: flex;
         }
         .KB {
           display: grid;
@@ -77,6 +77,7 @@
             border-radius: 8px;
             white-space: normal;
             line-height: normal;
+            font-weight: bold;
           }
           .num1-9 {
             display: grid;
@@ -89,11 +90,17 @@
           .back {
             display: grid;
             grid-template-rows: 2fr 1fr 1fr;
+            .punto {
+              span {
+                font-size: 3em;
+                margin-top: -18px;
+              }
+            }
           }
         }
       }
       .tarjeta {
-        margin-top: 2em;
+        margin-top: 1em;
         ol li {
           font-weight: bold;
         }
