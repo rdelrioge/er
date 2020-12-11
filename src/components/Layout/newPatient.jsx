@@ -6,7 +6,8 @@ import { UserContext } from "../../Store";
 import {
   Button,
   TextField,
-  Modal,
+  Dialog,
+  Slide,
   FormControl,
   Select,
   InputLabel,
@@ -203,10 +204,13 @@ const NewPatient = (props) => {
   };
 
   return (
-    <Modal
+    <Dialog
       open={props.open}
       onClose={handleClose}
-      // aria-labelledby="form-dialog-name"
+      TransitionComponent={Slide}
+      aria-labelledby="form-dialog-name"
+      maxWidth={"lg"}
+      TransitionProps={{ direction: "up" }}
       onRendered={resetProps}>
       <Draggable handle="strong">
         <div className="newPatientModal">
@@ -445,7 +449,7 @@ const NewPatient = (props) => {
           </form>
         </div>
       </Draggable>
-    </Modal>
+    </Dialog>
   );
 };
 

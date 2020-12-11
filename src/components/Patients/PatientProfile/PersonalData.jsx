@@ -12,7 +12,9 @@ import {
   DialogTitle,
   DialogContent,
   Button,
-  Modal,
+  Dialog,
+  Zoom,
+  Slide,
 } from "@material-ui/core";
 
 import {
@@ -82,10 +84,12 @@ function PersonalData(props) {
   };
 
   return (
-    <Modal
+    <Dialog
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-name"
+      TransitionComponent={Slide}
+      TransitionProps={{ direction: "down" }}
       // onRendered={resetProps}
     >
       <Draggable handle=".header">
@@ -168,7 +172,7 @@ function PersonalData(props) {
           </DialogContent>
         </div>
       </Draggable>
-    </Modal>
+    </Dialog>
   );
 }
 

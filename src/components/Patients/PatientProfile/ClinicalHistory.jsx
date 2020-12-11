@@ -12,7 +12,9 @@ import {
   DialogTitle,
   DialogContent,
   Button,
-  Modal,
+  Dialog,
+  Zoom,
+  Slide,
 } from "@material-ui/core";
 
 import Draggable from "react-draggable";
@@ -38,11 +40,12 @@ function ClinicalHistory(props) {
   };
 
   return (
-    <Modal
+    <Dialog
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-name"
-    >
+      TransitionComponent={Slide}
+      TransitionProps={{ direction: "down" }}>
       <Draggable handle=".header">
         <div className="clinicalHistoryModal">
           <div className="header">
@@ -51,8 +54,7 @@ function ClinicalHistory(props) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handlePersonalData}
-              >
+                onClick={handlePersonalData}>
                 Guardar
               </Button>
             </DialogTitle>
@@ -99,8 +101,7 @@ function ClinicalHistory(props) {
                       name="bloodGroup"
                       id="bloodGroup"
                     />
-                  }
-                >
+                  }>
                   <MenuItem value="">
                     <em>Unknown</em>
                   </MenuItem>
@@ -159,7 +160,7 @@ function ClinicalHistory(props) {
           </DialogContent>
         </div>
       </Draggable>
-    </Modal>
+    </Dialog>
   );
 }
 
