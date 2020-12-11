@@ -161,7 +161,6 @@ function Venta() {
         for (let i = 0; i < arrTemp.length; i++) {
           let igual = false;
           for (let j = 0; j < pagados.length && !igual; j++) {
-            console.warn(`i: ${i} y j: ${j}`);
             if (arrTemp[i].patientid === pagados[j].patientid) {
               igual = true;
             }

@@ -92,9 +92,11 @@ function Cobrar(props) {
 
   const sendTicket = () => {
     console.log("sendTicket");
+    let myTime = new Date().getTime();
     console.log({
       ...props.transaccion,
-      pagado: new Date().getTime(),
+      pagado: myTime,
+      ticket: myTime,
       pagacon,
       cambio,
       formaDePago,
@@ -105,7 +107,8 @@ function Cobrar(props) {
     });
     db.collection("tickets").add({
       ...props.transaccion,
-      pagado: new Date().getTime(),
+      pagado: myTime,
+      ticket: myTime,
       pagacon,
       cambio,
       formaDePago,
