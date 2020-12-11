@@ -128,32 +128,9 @@ const Pacientes = () => {
   return (
     <div className="pacientes">
       <div className="superior">
-        <h1>Patients</h1>
+        <h1>Pacientes</h1>
       </div>
       <Paper className="paperSearch">
-        <TextField
-          className="searchInput"
-          type="search"
-          label="Search patient"
-          variant="outlined"
-          autoFocus
-          size="small"
-          onChange={(e) =>
-            filterPatients(
-              e.target.value.replace(/\b\w/g, (l) => l.toUpperCase())
-            )
-          }
-        />
-        {filtroBuscar === "name" ? (
-          <p>Ingresar mínimo 3 digitos del(os) nombre(s) o apellido(s)</p>
-        ) : null}
-        {filtroBuscar === "tel" ? (
-          <p>Ingresar mínimo 6 digitos del telefono</p>
-        ) : null}
-        {filtroBuscar === "regid" ? (
-          <p>Ingresar mínimo 6 digitos del ID</p>
-        ) : null}
-        <span className="spacer" />
         <FormControl size="small" className="filtroBuscar" variant="outlined">
           <InputLabel htmlFor="filtroBuscar">Buscar por</InputLabel>
           <Select
@@ -172,14 +149,37 @@ const Pacientes = () => {
             <MenuItem value="tel">Teléfono</MenuItem>
           </Select>
         </FormControl>
+        <TextField
+          className="searchInput"
+          type="search"
+          label="Buscar paciente"
+          variant="outlined"
+          autoFocus
+          size="small"
+          helperText={
+            filtroBuscar === "name"
+              ? "Ingresar mínimo 3 digitos del(os) nombre(s) o apellido(s)"
+              : filtroBuscar === "tel"
+              ? "Ingresar mínimo 6 digitos del telefono"
+              : filtroBuscar === "regid"
+              ? "Ingresar mínimo 6 digitos del ID"
+              : null
+          }
+          onChange={(e) =>
+            filterPatients(
+              e.target.value.replace(/\b\w/g, (l) => l.toUpperCase())
+            )
+          }
+        />
       </Paper>
       <Paper className="paperPatientsList">
         <ul>
           {results.length > 0 ? (
             <>
               <div className="gridHead">
-                <h3>Name</h3>
-                <h3>Phone Number</h3>
+                <h3>RegId</h3>
+                <h3>Nombre</h3>
+                <h3>Teléfono</h3>
               </div>
               {results.map((patient, index) => {
                 return (
@@ -187,6 +187,7 @@ const Pacientes = () => {
                     <Link
                       to={{ pathname: `/patient/${patient.uid}` }}
                       className="gridBody">
+                      <span> {patient.regid} </span>
                       <span> {patient.name} </span>
                       <span> {patient.tel} </span>
                     </Link>
@@ -195,7 +196,7 @@ const Pacientes = () => {
               })}
             </>
           ) : (
-            <span> Search for a patient or create a new patient </span>
+            <span> Busca un paciente o crea uno nuevo </span>
           )}
         </ul>
       </Paper>

@@ -9,24 +9,18 @@
     padding: 10px 1em;
     margin-top: 2em;
     display: flex;
+    width: 40em;
+    min-width: 40em;
     .searchInput {
+      margin-left: 2em;
       input {
         text-transform: capitalize;
         width: 10em;
         transition: width 0.5s ease-in-out;
       }
       input:focus {
-        width: 20em;
+        width: 25em;
       }
-    }
-    p {
-      margin-left: 1em;
-      color: gray;
-      font-size: 0.9em;
-      align-self: center;
-    }
-    .spacer {
-      flex: 1 1 auto;
     }
   }
   .paperPatientsList {
@@ -48,7 +42,7 @@
       }
       .gridHead {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         color: dimgray;
       }
       li {
@@ -58,12 +52,12 @@
           text-decoration: none;
           display: grid;
           margin: 0;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr;
           color: gray;
         }
       }
       li:hover {
-        background-color: #964bf9;
+        background-color: #46d0f7;
         * {
           color: white;
         }
