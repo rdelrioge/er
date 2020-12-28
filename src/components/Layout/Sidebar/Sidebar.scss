@@ -47,6 +47,7 @@
 .sidebarMin:hover {
   transition-delay: 1s;
   width: 240px;
+  z-index: 100;
 }
 
 .sidebarOpen {
