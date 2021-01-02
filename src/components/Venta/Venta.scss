@@ -1,7 +1,7 @@
 .pointOfSales {
   h1 {
     color: dimgray;
-    margin-right: 2em;
+    // margin-right: 2em;
     text-align: center;
   }
   .grid {
@@ -213,5 +213,44 @@
   }
   .MuiAccordion-root:before {
     background: none;
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  .pointOfSales {
+    .dbTitle {
+      font-size: 5vw;
+      margin-top: 0;
+    }
+    .grid {
+      display: flex;
+      flex-direction: column-reverse;
+      .left {
+        font-size: 1.7vw;
+        .acordion {
+          min-width: 49vw;
+        }
+        .acordionDetails {
+          .cobrarBtn {
+            font-size: 1.7vw;
+          }
+        }
+      }
+      .right {
+        .rightSuperior {
+          margin-bottom: 1em;
+          .cardCount {
+            width: 25vw;
+            font-size: 1.7vw;
+            .cardContentCount {
+              padding: 10px;
+            }
+          }
+        }
+        .rightInf {
+          display: none;
+        }
+      }
+    }
   }
 }

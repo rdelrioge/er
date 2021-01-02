@@ -225,7 +225,7 @@ function Venta() {
 
   return (
     <div className="pointOfSales">
-      <h1>Dashboard</h1>
+      <h1 className="dbTitle">Dashboard</h1>
       <div className="grid">
         <div className="left">
           {transacciones.length > 0 ? (

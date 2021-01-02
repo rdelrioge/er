@@ -7,12 +7,14 @@ import {
   Button,
   TextField,
   Dialog,
+  DialogTitle,
   Slide,
   FormControl,
   Select,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  DialogContent,
 } from "@material-ui/core";
 import {
   DatePicker,
@@ -206,20 +208,21 @@ const NewPatient = (props) => {
   return (
     <Dialog
       open={props.open}
+      className="newPatientModal"
       onClose={handleClose}
       TransitionComponent={Slide}
+      scroll={"paper"}
       aria-labelledby="form-dialog-name"
       maxWidth={"lg"}
       TransitionProps={{ direction: "up" }}
       onRendered={resetProps}>
-      <Draggable handle="strong">
-        <div className="newPatientModal">
-          <strong>
-            <h3 id="form-dialog-name"> Nuevo Paciente </h3>
-          </strong>
+      <DialogTitle id="form-dialog-name">{"Nuevo Paciente"}</DialogTitle>
+      <DialogContent>
+        <div className="newPatientModalContent">
           <form onSubmit={handleSubmit} className="contentNewPatientModal">
             <div className="superiorData">
               <TextField
+                className="id"
                 label="ID de registro"
                 variant="outlined"
                 size="small"
@@ -229,10 +232,8 @@ const NewPatient = (props) => {
                 }}
                 value={regid}
               />
-              <span></span>
-              <span></span>
-              <span></span>
               <TextField
+                className="nombre"
                 label="Nombre"
                 variant="outlined"
                 required
@@ -248,6 +249,7 @@ const NewPatient = (props) => {
                 }
               />
               <TextField
+                className="secondName"
                 label="Segundo Nombre"
                 variant="outlined"
                 size="small"
@@ -261,6 +263,7 @@ const NewPatient = (props) => {
                 }
               />
               <TextField
+                className="apellidoP"
                 label="Apellido paterno"
                 variant="outlined"
                 size="small"
@@ -273,6 +276,7 @@ const NewPatient = (props) => {
                 }
               />
               <TextField
+                className="apellidoM"
                 label="Apellido materno"
                 variant="outlined"
                 size="small"
@@ -287,6 +291,7 @@ const NewPatient = (props) => {
                 <KeyboardDatePicker
                   inputVariant="outlined"
                   label="Fecha de nacimiento"
+                  className="dob"
                   format="DD/MM/yyyy"
                   size="small"
                   required
@@ -295,7 +300,7 @@ const NewPatient = (props) => {
                   onChange={calcAge}
                 />
               </MuiPickersUtilsProvider>
-              <p>
+              <p className="age">
                 {age ? (
                   <>
                     <b>Edad:</b> {age} años
@@ -317,10 +322,9 @@ const NewPatient = (props) => {
                   <MenuItem value="F">Femenino</MenuItem>
                 </Select>
               </FormControl>
-              <span></span>
             </div>
             <div className="inferiorData">
-              <div className="infDataRow1">
+              <div className="infLeft">
                 <TextField
                   label="Teléfono"
                   variant="outlined"
@@ -330,6 +334,16 @@ const NewPatient = (props) => {
                   onChange={(e) => setTel(e.target.value.trim())}
                 />
                 <TextField
+                  label="e-mail"
+                  variant="outlined"
+                  size="small"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value.trim())}
+                />
+              </div>
+              <div className="infRight">
+                <TextField
+                  className="direccion"
                   label="Dirección"
                   variant="outlined"
                   size="small"
@@ -337,6 +351,7 @@ const NewPatient = (props) => {
                   onChange={(e) => setAddress(e.target.value)}
                 />
                 <TextField
+                  className="numExt"
                   label="No. Ext"
                   variant="outlined"
                   size="small"
@@ -344,22 +359,16 @@ const NewPatient = (props) => {
                   onChange={(e) => setNumExt(e.target.value)}
                 />
                 <TextField
+                  className="numInt"
                   label="No. Int"
                   variant="outlined"
                   size="small"
                   value={numInt}
                   onChange={(e) => setNumInt(e.target.value)}
                 />
-              </div>
-              <div className="infDataRow2">
+
                 <TextField
-                  label="e-mail"
-                  variant="outlined"
-                  size="small"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value.trim())}
-                />
-                <TextField
+                  className="colonia"
                   label="Colonia"
                   variant="outlined"
                   size="small"
@@ -367,6 +376,7 @@ const NewPatient = (props) => {
                   onChange={(e) => setCounty(e.target.value)}
                 />
                 <TextField
+                  className="postalCode"
                   label="C.P."
                   variant="outlined"
                   size="small"
@@ -380,6 +390,7 @@ const NewPatient = (props) => {
                   }
                 />
                 <TextField
+                  className="ciudad"
                   label="Ciudad"
                   variant="outlined"
                   size="small"
@@ -388,6 +399,7 @@ const NewPatient = (props) => {
                 />
                 <Autocomplete
                   id="combo-box-states"
+                  className="estado"
                   options={estados}
                   value={state}
                   onChange={(ev, val) => setState(val)}
@@ -404,10 +416,11 @@ const NewPatient = (props) => {
               </div>
             </div>
             <div className="agendarPaciente">
-              <h4>Programar cita:</h4>
+              <h4 className="progCita"> Programar cita:</h4>
               <MuiPickersUtilsProvider utils={MomentUtils}>
                 <DatePicker
                   autoOk
+                  className="fechaCita"
                   inputVariant="outlined"
                   label="Dia"
                   size="small"
@@ -416,6 +429,7 @@ const NewPatient = (props) => {
                 />
                 <TimePicker
                   inputVariant="outlined"
+                  className="horaCita"
                   label="Hora"
                   value={horaCita}
                   size="small"
@@ -448,7 +462,7 @@ const NewPatient = (props) => {
             </Button>
           </form>
         </div>
-      </Draggable>
+      </DialogContent>
     </Dialog>
   );
 };
